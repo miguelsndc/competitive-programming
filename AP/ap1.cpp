@@ -63,7 +63,7 @@ int main()
         int no_elements;
         std::cin >> no_elements;
 
-        int array[no_elements]; // why is this not complaing of non-constant array size ?? 
+        int *array = new int[no_elements];// why is this not complaing of non-constant array size ?? 
 
         for (int j = 0; j < no_elements;  j++)
         {
@@ -72,8 +72,8 @@ int main()
 
         merge_sort(array, no_elements);
 
-        for (const auto &el: array) {
-            std::cout << el << ' ';
+        for (int i = 0; i < no_elements; i++) {
+            std::cout << array[i] << ' ';
         }
     }
 }
