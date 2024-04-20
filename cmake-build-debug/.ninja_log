@@ -1,8 +1,0 @@
-# ninja log v5
-23	157	7350788643403028	CMakeFiles/algorithms.dir/implementations/binary_search.c.obj	d4a7eb111fe6301a
-33	168	7350788643513020	CMakeFiles/algorithms.dir/implementations/merge_sort_skill_issue.c.obj	a2543c2a6883b42e
-85	217	7350788643993028	CMakeFiles/algorithms.dir/implementations/mergesort.c.obj	f3566cc90b05fe
-47	445	7350788646263007	CMakeFiles/algorithms.dir/implementations/binary_search.cpp.obj	33ac440f1df4a8ab
-68	465	7350788646473005	CMakeFiles/algorithms.dir/implementations/quicksort.cpp.obj	e65d62a7526508b8
-0	504	7350788646872997	CMakeFiles/algorithms.dir/AP/ap1.cpp.obj	76573506f6f8e58a
-12	521	7350788647042995	CMakeFiles/algorithms.dir/implementations/merge_sort.cpp.obj	490a995a5ab208b1
