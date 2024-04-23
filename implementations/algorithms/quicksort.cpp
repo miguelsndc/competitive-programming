@@ -7,30 +7,22 @@ void swap(int *i, int *j)
     *j = temp;
 }
 
-int partition(int list[], int low, int high)
+int partition(int list[], int l, int r)
 {
-    int pivot = list[low];
-    // expand bounds because do-while.
-    int i = low - 1;
-    int j = high + 1;
-
-    while (i < j)
-    {
-        do
-        {
+    int pivot = list[l];
+    int i = l;
+    int j = r + 1;
+    while (i < j) {
+        do {
             i++;
-        } while (list[i] < pivot);
-        do
-        {
+        } while (list[i] < pivot && i < r);
+        do {
             j--;
         } while (list[j] > pivot);
-        // avoid unnecessary swaps
-        if (i <= j)
-        {
-            swap(&list[i], &list[j]);
-        }
+        swap(&list[i], &list[j]);
     }
-    swap(&list[low], &list[j]);
+    swap(&list[i], &list[j]);
+    swap(&list[l], &list[j]);
     return j;
 }
 

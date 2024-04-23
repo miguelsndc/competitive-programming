@@ -1,50 +1,40 @@
 #include <iostream>
 #include <memory>
 
-void _merge(int list[], int left, int middle, int right)
+void merge(int list[], int l, int r)
 {
-    int left_length = middle - left + 1;
-    int right_length = right - middle;
-
-    std::unique_ptr<int[]> temp_left(new int[left_length]);
-    std::unique_ptr<int[]> temp_right(new int[right_length]);
-
-    for (int i = 0; i < left_length; i++)
-    {
-        temp_left[i] = list[left + i];
+    int *temp = new int [l + r];
+    for (int i = l; i <= r; i++) {
+        temp[i] = list[i];
     }
-
-    for (int i = 0; i < right_length; i++)
-    {
-        temp_right[i] = list[middle + i + 1];
-    }
-
-    int i, j, k;
-    for (i = 0, j = 0, k = left; k <= right; k++)
-    {
-        if ((i < left_length) && (j >= right_length || temp_left[i] <= temp_right[j]))
-        {
-            list[k] = temp_left[i];
-            i++;
-        }
-        else
-        {
-            list[k] = temp_right[j];
-            j++;
+    int m = (l + r) / 2;
+    int i1 = l;
+    int i2 = m + 1;
+    for (int curr = l; curr <= r; curr++) {
+        if (i1 == m + 1) {
+            list[curr] = temp[i2++];
+        } else if (i2 > r) {
+            list[curr] = temp[i1++];
+        } else if (temp[i1] <= temp[i2]) {
+            list[curr] = temp[i1++];
+        } else {
+            list[curr] = temp[i2++];
         }
     }
+
+    delete[] temp;
 }
 
 void _sort(int list[], int left, int right)
 {
-    // theres margin to split
+    // there's margin to split
     if (left < right)
     {
         int middle = (left + right) / 2;
         _sort(list, left, middle);
         _sort(list, middle + 1, right);
 
-        _merge(list, left, middle, right);
+        merge(list, left, right);
     }
 }
 
@@ -55,7 +45,7 @@ void merge_sort(int list[], int size)
 
 int main()
 {
-    int list[] = {9, 1, 8, 2, 7, 3, 6, 4, 5};
+    int list[] = { 9, 12,2, 1, 79, 14, 1, 3, 2,5, 4, 6, 3, 7, 6, 9};
     int size = sizeof(list) / sizeof(int);
     merge_sort(list, size);
     for (const auto el : list)
