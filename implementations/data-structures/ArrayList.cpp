@@ -19,7 +19,7 @@ private:
     E* listArray;
 
     void increaseCapacity() {
-        int newCapacity = floor(maxSize * 1.5);
+        int newCapacity = ceil(maxSize * 1.7);
         int oldCurr = curr;
         E *newListArray = new E[newCapacity];
 
@@ -34,11 +34,14 @@ private:
         listArray = newListArray;
     }
 public:
-    explicit ArrayList(int size=8) {
+    explicit ArrayList(int size=1) {
         maxSize = size;
         listSize = curr = 0;
         listArray = new E[maxSize];
     }
+
+    // just to see if capacity increasing works
+    int getMaxSize() { return maxSize; };
 
     ~ArrayList() override { delete[] listArray; };
 
@@ -50,7 +53,7 @@ public:
     }
 
     void insert(const E& it) override {
-        if (listSize > maxSize) {
+        if (listSize >= maxSize) {
             increaseCapacity();
         }
         for (int i = listSize; i > curr; i--) {
@@ -61,7 +64,7 @@ public:
     }
 
     void append(const E& it) override{
-        if (listSize > maxSize) {
+        if (listSize >= maxSize) {
             increaseCapacity();
         }
         listArray[listSize++] = it;
@@ -118,9 +121,12 @@ public:
 int main() {
     auto *list = new ArrayList<int>(1);
 
-    list->insert(1);
-    list->insert(2);
-    list->insert(3);
+    for (int i = 0; i < 25; i++) {
+        list->insert(i * i);
+        cout << list->getMaxSize() << '\n';
+    }
+
+    cout << list->length();
 
     delete list;
     return 0;
