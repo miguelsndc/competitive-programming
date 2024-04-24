@@ -33,7 +33,7 @@ void quick_sort_recursion(int list[], int low, int high)
     {
         int split_pos = partition(list, low, high);
         // notice we don't include split_pos because it's a reserved position.
-        quick_sort_recursion(list, low, split_pos);
+        quick_sort_recursion(list, low, split_pos - 1);
         quick_sort_recursion(list, split_pos + 1, high);
     }
 }
