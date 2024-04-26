@@ -1,9 +1,11 @@
 #include <iostream>
 #include <memory>
 
-void merge(int list[], int l, int r)
+using namespace std;
+
+void merge(int list[], int l, int r, int size)
 {
-    int *temp = new int [l + r];
+    int *temp = new int [size];
     for (int i = l; i <= r; i++) {
         temp[i] = list[i];
     }
@@ -25,32 +27,36 @@ void merge(int list[], int l, int r)
     delete[] temp;
 }
 
-void _sort(int list[], int left, int right)
+void _sort(int list[], int left, int right, int size)
 {
     // there's margin to split
     if (left < right)
     {
         int middle = (left + right) / 2;
-        _sort(list, left, middle);
-        _sort(list, middle + 1, right);
+        _sort(list, left, middle, size);
+        _sort(list, middle + 1, right, size);
 
-        merge(list, left, right);
+        merge(list, left, right, size);
     }
+
 }
 
 void merge_sort(int list[], int size)
 {
-    _sort(list, 0, size - 1);
+    _sort(list, 0, size - 1, size);
 }
 
 int main()
 {
-    int list[] = { 9, 12,2, 1, 79, 14, 1, 3, 2,5, 4, 6, 3, 7, 6, 9};
-    int size = sizeof(list) / sizeof(int);
-    merge_sort(list, size);
-    for (const auto el : list)
-    {
-        std::cout << el << ' ';
+    int n;
+    cin >> n;
+    int *list = new int [n];
+    for (int i = 0; i < n; i++) {
+        cin >> list[i];
+    }
+    merge_sort(list, n);
+    for (int i = 0; i < n; i++) {
+        cout << list[i];
     }
     return 0;
 }
