@@ -1,11 +1,10 @@
 #include <iostream>
 
 using namespace std;
-using ll = long long;
 
 struct Candidate
 {
-    string name;
+    char *name;
     int score;
     int age;
 
@@ -17,12 +16,12 @@ struct Candidate
     }
     Candidate()
     {
-        name = "";
+        name = new char[31];
         score = age = 0;
     }
 };
 
-bool compare(Candidate cd1, Candidate cd2, string key)
+bool compare(Candidate cd1, Candidate cd2, char *key)
 {
     if (key == "score")
     {
@@ -34,7 +33,7 @@ bool compare(Candidate cd1, Candidate cd2, string key)
     }
 }
 
-void merge(Candidate *list, int l, int r, string key, int size)
+void merge(Candidate *list, int l, int r, char *key, int size)
 {
     Candidate *temp = new Candidate[size];
     for (int i = 0; i < size; i++)
@@ -69,7 +68,7 @@ void merge(Candidate *list, int l, int r, string key, int size)
     delete[] temp;
 }
 
-void merge_sort(Candidate *list, int l, int r, string key, int size)
+void merge_sort(Candidate *list, int l, int r, char *key, int size)
 {
     if (l < r)
     {
@@ -95,7 +94,7 @@ int main()
 
         for (int j = 0; j < i; j++)
         {
-            string name;
+            char name[31];
             int score;
             int age;
 
@@ -107,15 +106,15 @@ int main()
 
         cout << "cargo " << k + 1 << ':' << '\n';
 
-        for (int joj = 0; joj < v; joj++)
+        for (int z = 0; z < v; z++)
         {
-            if (joj >= i)
+            if (z >= i)
             {
                 cout << 'x' << '\n';
             }
             else
             {
-                cout << list[joj].name << '\n';
+                cout << list[z].name << '\n';
             }
         }
         delete[] list;
