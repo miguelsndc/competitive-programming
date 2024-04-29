@@ -21,15 +21,15 @@ struct Candidate
     }
 };
 
-bool compare(Candidate cd1, Candidate cd2, char *key)
+bool compare(Candidate *cd1, Candidate *cd2, char *key)
 {
     if (key == "score")
     {
-        return cd1.score >= cd2.score;
+        return cd1->score >= cd2->score;
     }
-    else if (key == "age")
+    else
     {
-        return cd1.age >= cd2.age;
+        return cd1->age >= cd2->age;
     }
 }
 
@@ -55,7 +55,7 @@ void merge(Candidate *list, int l, int r, char *key, int size)
         {
             list[curr] = temp[i1++];
         }
-        else if (compare(temp[i1], temp[i2], key))
+        else if (compare(&temp[i1], &temp[i2], key))
         {
             list[curr] = temp[i1++];
         }
@@ -64,8 +64,6 @@ void merge(Candidate *list, int l, int r, char *key, int size)
             list[curr] = temp[i2++];
         }
     }
-
-    delete[] temp;
 }
 
 void merge_sort(Candidate *list, int l, int r, char *key, int size)
@@ -117,7 +115,6 @@ int main()
                 cout << list[z].name << '\n';
             }
         }
-        delete[] list;
     }
 
     return 0;
