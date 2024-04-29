@@ -71,7 +71,7 @@ void merge_sort(Candidate *list, int l, int r, char *key, int size)
     if (l < r)
     {
         int m = (l + r) / 2;
-        merge_sort(list, 0, m, key, size);
+        merge_sort(list, l, m, key, size);
         merge_sort(list, m + 1, r, key, size);
         merge(list, l, r, key, size);
     }
