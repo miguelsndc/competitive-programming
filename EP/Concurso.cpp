@@ -4,38 +4,24 @@ using namespace std;
 
 struct Candidate
 {
-    char *name;
+    char name[31];
     int score;
     int age;
-
-    Candidate(char *name, int score, int age)
-    {
-        name = name;
-        score = score;
-        age = age;
-    }
-    Candidate()
-    {
-        name = new char[31];
-        score = age = 0;
-    }
 };
 
-bool compare(Candidate *cd1, Candidate *cd2, char *key)
+bool compare_scores(Candidate *cd1, Candidate *cd2)
 {
-    if (key == "score")
-    {
-        return cd1->score >= cd2->score;
-    }
-    else
-    {
-        return cd1->age >= cd2->age;
-    }
+    return cd1->score >= cd2->score;
 }
 
-void merge(Candidate *list, int l, int r, char *key, int size)
+bool compare_ages(Candidate *cd1, Candidate *cd2)
 {
-    Candidate *temp = new Candidate[size];
+    return cd1->age >= cd2->age;
+}
+
+void merge(Candidate *list, int l, int r, int size, bool (*compare)(Candidate *, Candidate *))
+{
+    Candidate temp[size];
     for (int i = 0; i < size; i++)
     {
         temp[i] = list[i];
@@ -55,7 +41,7 @@ void merge(Candidate *list, int l, int r, char *key, int size)
         {
             list[curr] = temp[i1++];
         }
-        else if (compare(&temp[i1], &temp[i2], key))
+        else if (compare(&temp[i1], &temp[i2]))
         {
             list[curr] = temp[i1++];
         }
@@ -66,14 +52,14 @@ void merge(Candidate *list, int l, int r, char *key, int size)
     }
 }
 
-void merge_sort(Candidate *list, int l, int r, char *key, int size)
+void merge_sort(Candidate *list, int l, int r, bool (*compare)(Candidate *, Candidate *), int size)
 {
     if (l < r)
     {
         int m = (l + r) / 2;
-        merge_sort(list, l, m, key, size);
-        merge_sort(list, m + 1, r, key, size);
-        merge(list, l, r, key, size);
+        merge_sort(list, l, m, compare, size);
+        merge_sort(list, m + 1, r, compare, size);
+        merge(list, l, r, size, compare);
     }
 }
 
@@ -88,19 +74,15 @@ int main()
     {
         int i, v;
         cin >> i >> v;
-        Candidate *list = new Candidate[i];
+        Candidate list[i];
 
         for (int j = 0; j < i; j++)
         {
-            char name[31];
-            int score;
-            int age;
-
             cin >> list[j].name >> list[j].score >> list[j].age;
         }
 
-        merge_sort(list, 0, i - 1, "score", i);
-        merge_sort(list, 0, i - 1, "age", i);
+        merge_sort(list, 0, i - 1, compare_scores, i);
+        merge_sort(list, 0, i - 1, compare_ages, i);
 
         cout << "cargo " << k + 1 << ':' << '\n';
 
