@@ -22,7 +22,7 @@ bool compare_ages(Candidate *cd1, Candidate *cd2)
 void merge(Candidate *list, int l, int r, int size, bool (*compare)(Candidate *, Candidate *))
 {
     Candidate temp[size];
-    for (int i = 0; i < size; i++)
+    for (int i = l; i <= r; i++)
     {
         temp[i] = list[i];
     }
@@ -72,30 +72,28 @@ int main()
     cin >> c;
     for (int k = 0; k < c; k++)
     {
-        int i, v;
-        cin >> i >> v;
-        Candidate list[i];
+        int n, v;
+        cin >> n >> v;
+        Candidate list[n];
 
-        for (int j = 0; j < i; j++)
+        for (int j = 0; j < n; j++)
         {
             cin >> list[j].name >> list[j].score >> list[j].age;
         }
 
-        merge_sort(list, 0, i - 1, compare_scores, i);
-        merge_sort(list, 0, i - 1, compare_ages, i);
+        merge_sort(list, 0, n - 1, compare_ages, n);
+        merge_sort(list, 0, n - 1, compare_scores, n);
 
         cout << "cargo " << k + 1 << ':' << '\n';
 
-        for (int z = 0; z < v; z++)
+        for (int z = 0; z < min(n, v); z++)
         {
-            if (z >= i)
-            {
-                cout << 'x' << '\n';
-            }
-            else
-            {
-                cout << list[z].name << '\n';
-            }
+            cout << list[z].name << '\n';
+        }
+
+        for (int z = 0; z < v - n; z++)
+        {
+            cout << 'x' << '\n';
         }
     }
 
