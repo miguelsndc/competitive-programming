@@ -1,9 +1,22 @@
 #include <iostream>
 #include "List.h"
 
+using namespace std;
+
+void Assert(bool expr, string msg)
+{
+    if (!expr)
+    {
+        throw runtime_error(msg);
+    }
+}
+
 template <typename E>
 class Link
 {
+private:
+    static Link<E> *freelist;
+
 public:
     E element;
     Link *next;
@@ -16,6 +29,21 @@ public:
     Link(Link *nextval = NULL)
     {
         next = nextval;
+    }
+
+    void *operator new(size_t)
+    {
+        if (freelist == NULL)
+            return ::new Link;
+        Link<E> *temp = freelist;
+        freelist = freelist->next;
+        return temp;
+    }
+
+    void operator delete(void *ptr)
+    {
+        ((Link<E> *)ptr)->next = freelist;
+        freelist = (Link<E> *)ptr;
     }
 };
 
@@ -121,5 +149,35 @@ public:
         {
             curr = curr->next;
         }
+    }
+
+    int length() const
+    {
+        return cnt;
+    }
+
+    int currPos()
+    {
+        Link<E> *temp = head;
+        int i = 0;
+        for (i = 0; curr != temp; i++)
+        {
+            temp = temp->next;
+        }
+        return i;
+    }
+
+    void moveToPos(int pos)
+    {
+        Assert((pos >= 0 && pos <= cnt), "Position out of range");
+        curr = head;
+        for (int i = 0; i < pos; i++)
+            curr = curr->next;
+    }
+
+    const E &getValue()
+    {
+        Assert(curr->next != NULL, "No value");
+        return curr->next->element;
     }
 };
