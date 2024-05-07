@@ -14,8 +14,6 @@ void Assert(bool expr, string msg)
 template <typename E>
 class Link
 {
-private:
-    static Link<E> *freelist;
 
 public:
     E element;
@@ -29,21 +27,6 @@ public:
     Link(Link *nextval = NULL)
     {
         next = nextval;
-    }
-
-    void *operator new(size_t)
-    {
-        if (freelist == NULL)
-            return ::new Link;
-        Link<E> *temp = freelist;
-        freelist = freelist->next;
-        return temp;
-    }
-
-    void operator delete(void *ptr)
-    {
-        ((Link<E> *)ptr)->next = freelist;
-        freelist = (Link<E> *)ptr;
     }
 };
 
