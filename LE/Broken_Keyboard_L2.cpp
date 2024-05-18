@@ -127,39 +127,24 @@ public:
 };
 void solve(string s)
 {
-
-    // 3[2[1[]45
-    // aux:
-    // pilha:
-    // fila: 3 2 1
     auto prior = new Stack<string>();
     auto after = new Queue<string>();
     string aux = "";
     int opened = false;
     for (auto ch : s)
     {
+        if ((ch == ']' || ch == '[') && aux.size() > 0)
+        {
+            opened ? prior->push(aux) : after->enqueue(aux);
+            aux = "";
+        }
+
         if (ch == '[')
-        {
-            if (aux.size() > 0)
-            {
-                opened ? prior->push(aux) : after->enqueue(aux);
-                aux = "";
-            }
             opened = true;
-        }
         else if (ch == ']')
-        {
-            if (aux.size() > 0)
-            {
-                opened ? prior->push(aux) : after->enqueue(aux);
-                aux = "";
-            }
             opened = false;
-        }
         else
-        {
             aux.push_back(ch);
-        }
     }
 
     if (aux.size() > 0)
@@ -172,8 +157,6 @@ void solve(string s)
 
     cout << '\n';
 }
-
-// condicao ? true : false;
 
 int main()
 {
