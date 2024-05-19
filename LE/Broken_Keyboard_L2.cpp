@@ -4,44 +4,30 @@ using namespace std;
 using ll = long long;
 
 template <typename E>
-class Link
-{
+class Link {
 public:
     E element;
     Link<E> *next;
-    Link(E data, Link *nextval = NULL)
-    {
+    Link(E data, Link *nextval = NULL) {
         element = data;
         next = nextval;
     }
-    Link(Link *nextval = NULL)
-    {
-        next = nextval;
-    }
+    Link(Link *nextval = NULL) { next = nextval; }
 };
 
 template <typename E>
-class Stack
-{
+class Stack {
 private:
     Link<E> *top;
     int size = 0;
 
 public:
-    Stack()
-    {
-        top = NULL;
-    }
+    Stack() { top = NULL; }
 
-    ~Stack()
-    {
-        clear();
-    }
+    ~Stack() { clear(); }
 
-    void clear()
-    {
-        while (top != NULL)
-        {
+    void clear() {
+        while (top != NULL) {
             Link<E> *temp = top;
             top = top->next;
             delete temp;
@@ -49,14 +35,12 @@ public:
         size = 0;
     }
 
-    void push(const E item)
-    {
+    void push(const E item) {
         top = new Link<E>(item, top);
         size++;
     }
 
-    E pop()
-    {
+    E pop() {
         if (top == NULL)
             return NULL;
         E item = top->element;
@@ -67,24 +51,20 @@ public:
         return item;
     }
 
-    E topValue()
-    {
+    E topValue() {
         if (top != NULL)
             return top->element;
     }
 
-    int length()
-    {
-        return size;
-    }
+    int length() { return size; }
 };
 template <typename E>
-class Queue
-{
+class Queue {
 private:
-    Link<E> *front; // Pointer to front queue node
-    Link<E> *rear;  // Pointer to rear queue node
-    int size = 0;   // Number of elements in queue
+    Link<E> *front;
+    Link<E> *rear;
+    int size = 0;
+
 public:
     Queue() // Constructor
     {
@@ -92,49 +72,38 @@ public:
         size = 0;
     }
 
-    void clear()
-    {
-        while (front->next != NULL)
-        {
+    void clear() {
+        while (front->next != NULL) {
             rear = front;
             delete rear;
         }
         rear = front;
         size = 0;
     }
-    void enqueue(E &it)
-    {
-        rear->next = new Link<E>(it, NULL);
+    void enqueue(E item) {
+        rear->next = new Link<E>(item, NULL);
         rear = rear->next;
         size++;
     }
-    E dequeue()
-    {
-        E it = front->next->element;
+    E dequeue() {
+        E item = front->next->element;
         Link<E> *temp = front->next;
         front->next = temp->next;
         if (rear == temp)
             rear = front;
         delete temp;
         size--;
-        return it;
-    }
-    const E &frontValue() const
-    {
-        return front->next->element;
+        return item;
     }
     int length() const { return size; }
 };
-void solve(string s)
-{
+void solve(string s) {
     auto prior = new Stack<string>();
     auto after = new Queue<string>();
     string aux = "";
     int opened = false;
-    for (auto ch : s)
-    {
-        if ((ch == ']' || ch == '[') && aux.size() > 0)
-        {
+    for (auto ch : s) {
+        if ((ch == ']' || ch == '[') && aux.size() > 0) {
             opened ? prior->push(aux) : after->enqueue(aux);
             aux = "";
         }
@@ -158,8 +127,7 @@ void solve(string s)
     cout << '\n';
 }
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
