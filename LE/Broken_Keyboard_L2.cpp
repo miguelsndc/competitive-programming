@@ -1,133 +1,90 @@
 #include <iostream>
-
 using namespace std;
-using ll = long long;
 
 template <typename E>
-class Link {
+class Link
+{
 public:
     E element;
-    Link<E> *next;
-    Link(E data, Link *nextval = NULL) {
-        element = data;
+    Link *next;
+
+    Link(E &item, Link *nextval = NULL)
+    {
+        element = item;
         next = nextval;
     }
-    Link(Link *nextval = NULL) { next = nextval; }
-};
-
-template <typename E>
-class Stack {
-private:
-    Link<E> *top;
-    int size = 0;
-
-public:
-    Stack() { top = NULL; }
-
-    ~Stack() { clear(); }
-
-    void clear() {
-        while (top != NULL) {
-            Link<E> *temp = top;
-            top = top->next;
-            delete temp;
-        }
-        size = 0;
-    }
-
-    void push(const E item) {
-        top = new Link<E>(item, top);
-        size++;
-    }
-
-    E pop() {
-        if (top == NULL)
-            return NULL;
-        E item = top->element;
-        Link<E> *temp = top->next;
-        delete top;
-        top = temp;
-        size--;
-        return item;
-    }
-
-    E topValue() {
-        if (top != NULL)
-            return top->element;
-    }
-
-    int length() { return size; }
-};
-template <typename E>
-class Queue {
-private:
-    Link<E> *front;
-    Link<E> *rear;
-    int size = 0;
-
-public:
-    Queue() // Constructor
+    Link(Link *nextval = NULL)
     {
-        front = rear = new Link<E>();
-        size = 0;
+        next = nextval;
     }
-
-    void clear() {
-        while (front->next != NULL) {
-            rear = front;
-            delete rear;
-        }
-        rear = front;
-        size = 0;
-    }
-    void enqueue(E item) {
-        rear->next = new Link<E>(item, NULL);
-        rear = rear->next;
-        size++;
-    }
-    E dequeue() {
-        E item = front->next->element;
-        Link<E> *temp = front->next;
-        front->next = temp->next;
-        if (rear == temp)
-            rear = front;
-        delete temp;
-        size--;
-        return item;
-    }
-    int length() const { return size; }
 };
-void solve(string s) {
-    auto prior = new Stack<string>();
-    auto after = new Queue<string>();
-    string aux = "";
-    int opened = false;
-    for (auto ch : s) {
-        if ((ch == ']' || ch == '[') && aux.size() > 0) {
-            opened ? prior->push(aux) : after->enqueue(aux);
-            aux = "";
-        }
 
-        if (ch == '[')
-            opened = true;
-        else if (ch == ']')
-            opened = false;
-        else
-            aux.push_back(ch);
+template <typename E>
+class LinkedList
+{
+public:
+    Link<E> *head;
+    Link<E> *tail;
+    Link<E> *curr;
+    int cnt;
+
+    LinkedList()
+    {
+        head = tail = curr = new Link<E>();
+        cnt = 0;
     }
 
-    if (aux.size() > 0)
-        opened ? prior->push(aux) : after->enqueue(aux);
+    void insert(E &item)
+    {
+        curr->next = new Link<E>(item, curr->next);
+        if (curr == tail)
+        {
+            tail = curr->next;
+        }
+        cnt++;
+    }
 
-    while (prior->length() > 0)
-        cout << prior->pop();
-    while (after->length() > 0)
-        cout << after->dequeue();
+    void moveToStart()
+    {
+        curr = head;
+    }
+
+    void moveToEnd()
+    {
+        curr = tail;
+    }
+
+    void next()
+    {
+        if (curr != tail)
+            curr = curr->next;
+    }
+};
+
+void solve(string s)
+{
+    auto list = new LinkedList<char>();
+    for (int i = 0; i < s.size(); i++)
+    {
+        char ch = s[i];
+        if (ch == '[')
+            list->moveToStart();
+        else if (ch == ']')
+            list->moveToEnd();
+        else
+        {
+            list->insert(ch);
+            list->next();
+        }
+    }
+    for (list->moveToStart(); list->curr != list->tail; list->next())
+        cout << list->curr->next->element;
 
     cout << '\n';
 }
 
-int main() {
+int main()
+{
     ios::sync_with_stdio(0);
     cin.tie(0);
 
