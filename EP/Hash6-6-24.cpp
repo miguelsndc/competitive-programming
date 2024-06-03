@@ -43,7 +43,7 @@ class HashTable {
             do {
                 i++;
                 pos = (pos + perm[i - 1]) % capacity;
-            } while (table[pos] != nullptr && i <= capacity);
+            } while (table[pos] != nullptr && i < capacity);
         }
 
         table[pos] = new Node(key, value);
@@ -61,7 +61,7 @@ class HashTable {
                 return make_pair(pos, entry->value);
             }
             pos = (pos + perm[i - 1]) % capacity;
-        } while (table[pos] != nullptr && i <= capacity);
+        } while (table[pos] != nullptr && i < capacity);
         return make_pair(-1, -1);
     }
 };
@@ -81,7 +81,7 @@ int main() {
         cin >> cases;
 
         for (int i = 0; i < cases; i++) {
-            char op[4];
+            char op[10];
             cin >> op;
 
             if (strcmp(op, "add") == 0) {
@@ -100,6 +100,6 @@ int main() {
             }
         }
         cin >> m;
-        return 0;
     }
+    return 0;
 }
