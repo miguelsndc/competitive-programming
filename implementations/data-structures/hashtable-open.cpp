@@ -16,7 +16,6 @@ class HashTable {
     vector<list<Node>> table;
     size_t capacity;
     int cnt = 0;
-    // se eu aumento a capacity depois de declarar isso aqui ele deve pegar a antiga, acho q isso resolve
     int hash(K key) { return key % this->capacity; };
 
    public:
@@ -32,43 +31,24 @@ class HashTable {
         return size() * 1.0 / capacity;
     }
 
-    void increase_capacity() {
-        float threshold = 0.75;
-        float lf = monitor_load_factor();
-        if (lf > threshold) {
-            capacity = capacity * 2;
-            vector<list<Node>> new_table;
-            // como mover chaves pra nova tabela sem passar por todas posições vazias ?
-        }
-    }
-
     void insert(K key, V value) {
         int pos = hash(key);
-        // ---- SUBSCRIÇÃO DA CHAVE -----
-        // for (Node &node : table[pos])
-        // {
-        //     if (node.key == key)
-        //     {
-        //         node.value = value;
-        //         return;
-        //     }
-        // }
-        if (find(key) == V())  // ???{
+        if (find(key) == nullptr)  // ???{
         {
             table[pos].push_back({key, value});
             cnt++;
         }
     }
 
-    V find(K key) {
+    V *find(K key) {
         int pos = hash(key);
         list<Node> &addr_list = table[pos];
         for (Node &node : addr_list) {
             if (node.key == key) {
-                return node.value;
+                return &node.value;
             }
         }
-        return V();  // o que diabos eu retorno aqui
+        return nullptr;  // o que diabos eu retorno aqui
     }
 
     V remove(K key) {
@@ -91,7 +71,7 @@ int main() {
     auto tb = new HashTable<int, int>(10);
 
     tb->insert(10, 23);
-    cout << tb->find(10) << '\n';
+    cout << (*tb->find(10)) << '\n';
     cout << tb->monitor_load_factor() << '\n';
     cout << tb->remove(10) << "\n";
     cout << tb->monitor_load_factor() << "\n";

@@ -2,7 +2,6 @@
 #include <vector>
 
 using namespace std;
-using ll = long long;
 
 template <typename K, typename V>
 class Entry {
@@ -10,20 +9,16 @@ class Entry {
     K key;
     V value;
     bool deleted = false;
-    bool empty = true;
 
     Entry(K keyval, V valval) : key(keyval), value(valval) {
-        empty = false;
     }
     Entry() {
-        key = K();
-        value = V();
-        empty = true;
+        key = NULL;
+        value = NULL;
     }
 
     void mark_deleted() {
         deleted = true;
-        empty = false;
         key = K();
         value = V();
     }
@@ -34,8 +29,30 @@ class HashTable {
     size_t capacity;
     vector<Entry<K, V>*> table;
     int cnt = 0;
-    int hash(K key) { return key % this->capacity; };
+    // q eu saiba só strings e numeros sao hasheaveis
+    int hash(size_t key) { return key % this->capacity; };
+    int hash(string key) {
+        int len = key.length() / 4;
+        int sum = 0;
+        for (int i = 0; i < len; i++) {
+            string sub = key.substr(i * 4, (i * 4) + 4);
+            int mult = 1;
+            for (int j = 0; j < 4; j++) {
+                sum += sub[j] * mult;
+                mult *= 256;
+            }
+        }
+        string sub = key.substr(len * 4);
+        int mult = 1;
+        int s_len = sub.length();
+        for (int j = 0; j < s_len; j++) {
+            sum += sub[j] * mult;
+            mult *= 256;
+        }
+        return abs(sum) % this->capacity;
+    }
 
+    // so pra ver se pega
     int probing(K key, int i) {
         return i;
     }
@@ -45,22 +62,29 @@ class HashTable {
         capacity = size;
         table.resize(capacity);
         for (int i = 0; i < capacity; i++) {
-            table[i] = new Entry<K, V>();
+            table[i] = nullptr;
         }
     }
 
     void insert(K key, V value) {
-        if (size() >= capacity) return;
+        if (size() >= capacity) return;  // TODO: increaseCapacity() -> rehashear tudo pra uma tabela maior
         int pos = hash(key);
 
-        if (!table[pos]->empty && !table[pos]->deleted) {
+        if (table[pos] != nullptr && !table[pos]->deleted) {
             int i = 0;
             do {
                 i++;
                 pos = (pos + probing(key, i)) % capacity;
-            } while (!table[pos]->empty && !table[pos]->deleted);
+            } while (table[pos] != nullptr && !table[pos]->deleted);
         }
-        table[pos] = new Entry<K, V>(key, value);
+
+        if (table[pos] != nullptr) {  // table[pos] é uma entry deletada
+            table[pos]->key = key;
+            table[pos]->value = value;
+            table[pos]->deleted = false;
+        } else {
+            table[pos] = new Entry<K, V>(key, value);
+        }
         cnt++;
     }
 
@@ -74,8 +98,8 @@ class HashTable {
                 return entry->value;
             }
             pos = (pos + probing(key, i)) % capacity;
-        } while (!table[pos]->empty && !table[pos]->deleted);
-        return V();
+        } while (table[pos] != nullptr && !table[pos]->deleted);
+        return V();  //
     }
 
     V remove(K key) {
@@ -89,7 +113,8 @@ class HashTable {
                 entry->mark_deleted();
                 return val;
             }
-        } while (!table[pos]->empty && !table[pos]->deleted);
+            pos = (pos + probing(key, i)) % capacity;
+        } while (table[pos] != nullptr && !table[pos]->deleted);
         return V();
     }
 
@@ -97,22 +122,16 @@ class HashTable {
         return cnt;
     }
 
-    float monitor_load_factor() {
+    float load_factor() {
         return size() * 1.0 / capacity;
-    }
-
-    void increase_capacity() {
     }
 };
 
 int main() {
-    HashTable<int, int> table;
-
-    table.insert(16, 20);
-    table.insert(32, 12);
-
-    table.find(32);
-    table.remove(32);
+    HashTable<string, int> table;
+    table.insert("oi", 20);
+    table.remove("oi");
+    table.insert("oi", 320);
 
     return 0;
 }
