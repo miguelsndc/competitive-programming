@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 
 #include <iostream>
 #include <vector>
@@ -25,16 +26,12 @@ class HashTable {
     }
 
    public:
-    vector<int> random_vec;
-
-    int probing(K key, int i) {
-        return random_vec[i - 1];
-    }
+    vector<int> perm;
 
     HashTable(size_t size = 16) {
         capacity = size;
         table.resize(capacity, nullptr);
-        random_vec.resize(size - 1);
+        perm.resize(size - 1);
     };
 
     void insert(K key, V value) {
@@ -45,8 +42,8 @@ class HashTable {
             int i = 0;
             do {
                 i++;
-                pos = (pos + probing(key, i)) % capacity;
-            } while (table[pos] != nullptr);
+                pos = (pos + perm[i - 1]) % capacity;
+            } while (table[pos] != nullptr && i <= capacity);
         }
 
         table[pos] = new Node(key, value);
@@ -63,8 +60,8 @@ class HashTable {
             if (entry != nullptr && entry->key == key) {
                 return make_pair(pos, entry->value);
             }
-            pos = (pos + probing(key, i)) % capacity;
-        } while (table[pos] != nullptr && i <= cnt);
+            pos = (pos + perm[i - 1]) % capacity;
+        } while (table[pos] != nullptr && i <= capacity);
         return make_pair(-1, -1);
     }
 };
@@ -72,37 +69,37 @@ class HashTable {
 int main() {
     int m;
     cin >> m;
-    auto table = new HashTable<int, int>(m);
-    for (int i = 0; i < m - 1; i++) {
-        int k;
-        cin >> k;
-        table->random_vec[i] = k;
-    }
+    while (m != 0) {
+        auto table = new HashTable<int, int>(m);
+        for (int i = 0; i < m - 1; i++) {
+            int k;
+            cin >> k;
+            table->perm[i] = k;
+        }
 
-    int cases;
-    cin >> cases;
+        int cases;
+        cin >> cases;
 
-    for (int i = 0; i < cases; i++) {
-        string op;
-        cin >> op;
+        for (int i = 0; i < cases; i++) {
+            char op[4];
+            cin >> op;
 
-        if (op == "0") break;
-
-        if (op == "add") {
-            int key, value;
-            cin >> key >> value;
-            table->insert(key, value);
-        } else {
-            int key;
-            cin >> key;
-            pi p = table->find(key);
-            if (p.first == -1) {
-                cout << -1 << '\n';
-            } else {
-                cout << p.first << ' ' << p.second << '\n';
+            if (strcmp(op, "add") == 0) {
+                int key, value;
+                cin >> key >> value;
+                table->insert(key, value);
+            } else if (strcmp(op, "find") == 0) {
+                int key;
+                cin >> key;
+                pi p = table->find(key);
+                if (p.first == -1) {
+                    cout << -1 << '\n';
+                } else {
+                    cout << p.first << ' ' << p.second << '\n';
+                }
             }
         }
+        cin >> m;
+        return 0;
     }
-
-    return 0;
 }
