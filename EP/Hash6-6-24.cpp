@@ -37,12 +37,12 @@ class HashTable {
     void insert(K key, V value) {
         if (cnt >= capacity || find(key).first != -1) return;
 
-        int pos = hash(key, capacity);
+        int pos, start = hash(key, capacity);
         if (table[pos] != nullptr) {
             int i = 0;
             do {
                 i++;
-                pos = (pos + perm[i - 1]) % capacity;
+                pos = (start + perm[i - 1]) % capacity;
             } while (table[pos] != nullptr && i < capacity);
         }
 
@@ -51,7 +51,7 @@ class HashTable {
     }
 
     pi find(K key) {
-        int pos = hash(key, capacity);
+        int pos, start = hash(key, capacity);
 
         int i = 0;
         do {
@@ -60,7 +60,7 @@ class HashTable {
             if (entry != nullptr && entry->key == key) {
                 return make_pair(pos, entry->value);
             }
-            pos = (pos + perm[i - 1]) % capacity;
+            pos = (start + perm[i - 1]) % capacity;
         } while (table[pos] != nullptr && i < capacity);
         return make_pair(-1, -1);
     }
