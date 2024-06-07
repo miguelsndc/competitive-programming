@@ -1,82 +1,53 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using ll = long long;
-
-int main()
-{
-    ios::sync_with_stdio(0);
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+// -----------
+int main() {
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n;
+    int n, t;
     cin >> n;
-    int a[n];
-    int b[n];
-    for (int i = 0; i < n; i++)
-    {
-        int c;
-        cin >> c;
-        a[i] = b[i] = c;
+    vi a(n), b(n);
+    for (int i = 0; i < n; i++) {
+        cin >> t;
+        a[i] = b[i] = t;
     }
 
-    map<int, int> tb;
-    // 1 2 3 4: 0 1 2 3
-    // 2 1 3 4: 1 0 2 3
+    sort(b.begin(), b.end());
 
-    sort(a, a + n);
-    for (int i = 0; i < n; i++)
-    {
-        tb[a[i]] = i;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        b[i] = tb[b[i]];
+    if (a.size() == 1) {
+        cout << "yes" << '\n'
+             << 1 << ' ' << 1;
+        return 0;
     }
 
-    int L = -1;
-    for (int i = 0; i < n; i++)
-    {
-        if (b[i] != i)
-        {
-            L = i;
-            break;
-        }
+    int i = 0;
+    int j = n - 1;
+    while (i < n - 1 && a[i] == b[i]) {
+        i++;
+    }
+    while (j > 0 && a[j] == b[j]) {
+        j--;
     }
 
-    int R = -1;
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (b[i] != i)
-        {
-            R = i;
-            break;
-        }
-    }
-
-    if (L == -1 || R == -1)
-    {
+    if (j == 0 && i == n - 1) {
         cout << "yes" << '\n';
         cout << 1 << ' ' << 1;
         return 0;
     }
-
-    reverse(b + L, b + R + 1);
-    int ok = true;
-    for (int i = 0; i < n; i++)
-    {
-        if (b[i] != i)
-        {
-            ok = false;
-            break;
-        }
+    int l = i;
+    int r = j;
+    while (i < r && j > l && a[i] == b[j]) {
+        i++, j--;
     }
-
-    if (ok)
-    {
-        cout << "yes" << "\n";
-        cout << L + 1 << ' ' << R + 1;
-    }
-    else
-    {
+    if (l == j && i == r) {
+        cout << "yes" << '\n';
+        cout << j + 1 << ' ' << i + 1 << "\n";
+    } else {
         cout << "no";
     }
 

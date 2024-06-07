@@ -1,34 +1,37 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using ll = long long;
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
 
-int n, k;
+// -----------
+
 int main() {
-    ios::sync_with_stdio(0);
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
+
+    int n, k;
     cin >> n >> k;
-    int fences[n + 1];
-    for (int i = 1; i <= n; i++)
-        cin >> fences[i];
+    int h[n + 1];
+    memset(h, 0, (n + 1) * sizeof(int));
+    for (int i = 1; i <= n; i++) cin >> h[i];
 
-    int i = 1;
-    int j = 0;
-    int sum = 0;
-    int min_sum = INT_MAX;
-    int min_index = 1;
-
-    while (j < k)
-        sum += fences[++j];
-
-    while (j <= n) {
-        if (sum <= min_sum) {
-            min_sum = sum;
-            min_index = i;
-        }
-        sum -= fences[i++];
-        sum += fences[++j];
+    int i = 1, j = 0, sum = 0;
+    while (j < k) {
+        sum += h[++j];
     }
-    cout << min_index;
+    int min_sum = INT_MAX;
+    int min_i = i;
+    while (j <= n) {
+        if (sum < min_sum) {
+            min_sum = sum;
+            min_i = i;
+        }
+        sum -= h[i++];
+        sum += h[++j];
+    }
+    cout << min_i;
     return 0;
 }

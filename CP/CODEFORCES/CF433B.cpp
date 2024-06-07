@@ -1,33 +1,36 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using ll = long long;
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+typedef vector<ll> vll;
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    int n;
+    int n, t, q, l, r;
     cin >> n;
-    ll a[n + 1], b[n + 1];
+    vll psum(n + 1);
+    vll psumsort(n + 1);
     for (int i = 1; i <= n; i++) {
-        int t;
         cin >> t;
-        a[i] = b[i] = t;
+        psum[i] = psumsort[i] = t;
     }
-    sort(b + 1, b + n + 1);
+    sort(psumsort.begin(), psumsort.end());
     for (int i = 1; i <= n; i++) {
-        a[i] += a[i - 1], b[i] += b[i - 1];
+        psum[i] += psum[i - 1];
+        psumsort[i] += psumsort[i - 1];
     }
-
-    int m;
-    cin >> m;
-    for (int i = 1; i <= m; i++) {
-        int type, l, r;
-        cin >> type >> l >> r;
-        if (type == 1)
-            cout << a[r] - a[l - 1] << '\n';
-        else
-            cout << b[r] - b[l - 1] << '\n';
+    cin >> q;
+    for (int i = 0; i < q; i++) {
+        cin >> t >> l >> r;
+        if (t == 1) {
+            cout << psum[r] - psum[l - 1] << '\n';
+        } else {
+            cout << psumsort[r] - psumsort[l - 1] << "\n";
+        }
     }
 
     return 0;
