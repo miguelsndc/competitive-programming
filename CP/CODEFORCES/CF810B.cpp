@@ -1,33 +1,34 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using ll = long long;
-
-int main()
-{
-    ios::sync_with_stdio(0);
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+typedef vector<ll> vll;
+typedef pair<ll, ll> pll;
+typedef vector<pll> vpll;
+// -----------
+int main() {
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
-    // n/f
-    // 4 2
-    // ---
+    ll n, f, a, b;
+    cin >> n >> f;
 
-    int a, b;
-    cin >> a >> b;
-    int n[a], f[a];
-    vector<pair<int, int>> sales(a);
-    for (int i = 0; i < a; i++)
-    {
-        cin >> n[i] >> f[i];
-        sales[i] = make_pair(min(2 * n[i], f[i]) - min(n[i], f[i]), i);
+    vector<pair<ll, pll>> mx(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a >> b;
+        ll c = min(a, b);
+        ll d = min(2 * a, b);
+        mx[i] = make_pair(d - c, make_pair(c, d));
+    }
+    sort(mx.rbegin(), mx.rend());
+    ll sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += i < f ? mx[i].second.second : mx[i].second.first;
     }
 
-    ll max_sum = 0;
-    sort(sales.rbegin(), sales.rend());
-    for (int i = 0; i < b; i++)
-        max_sum += min(2 * n[sales[i].second], f[sales[i].second]);
-    for (int i = b; i < a; i++)
-    {
-        max_sum += min(n[sales[i].second], f[sales[i].second]);
-    }
-    cout << max_sum;
+    cout << sum;
+
+    return 0;
 }
