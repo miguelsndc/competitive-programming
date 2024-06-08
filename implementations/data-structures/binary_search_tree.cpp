@@ -106,18 +106,6 @@ struct BinarySearchTree {
         visitor(root->element);
     }
 
-    Node<K, E> *update_help(Node<K, E> *root, K key, E element) {
-        if (root == nullptr) return NULL;
-        if (root->key > key) {
-            root->left = update_help(root->left, key, element);
-        } else if (root->key < key) {
-            root->right = update_help(root->right, key, element);
-        } else {
-            root->element = element;
-        }
-        return root;
-    }
-
     void clear(Node<K, E> *root) {
         if (root == nullptr) return;
         clear(root->left);
@@ -158,10 +146,6 @@ struct BinarySearchTree {
             node_count--;
         }
         return temp;
-    }
-
-    void update(K key, E value) {
-        root = update_help(root, key, value);
     }
 
     int size() {
