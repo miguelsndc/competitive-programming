@@ -1,5 +1,6 @@
+#include <bits/stdc++.h>
+
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ Heap ADT
 template <typename K>
 class Heap {
    private:
-    K* heap;
+    vector<K>& heap;
     int max_size;
     int n;
 
@@ -36,52 +37,81 @@ class Heap {
             if (heap[pos] >= heap[j]) {
                 return;  // is heap
             }
-            swap(heap, pos, j);  // sift down
-            pos = j;             // do it until element at pos is in the right place.
+            swap(heap[pos], heap[j]);  // sift down
+            pos = j;                   // do it until element at pos is in the right place.
         }
     }
 
     void build_heap() {
-        for (int i = (n / 2 - 1); i >= 0; i--) {
-            sift_down(i);
+        for (int i = n / 2; i >= 1; i--) {
+            int k = i;
+            K v = heap[k];
+            int is_heap = false;
+            while (!is_heap && left_child(k) <= n) {
+                int j = left_child(k);
+                if (j < n) {
+                    if (heap[j] < heap[j + 1]) {  // right child is greater
+                        j = right_child(k);
+                    }
+                }
+
+                if (v >= heap[j]) {  // heap property ok
+                    is_heap = true;
+                } else {
+                    heap[k] = heap[j];
+                    k = j;
+                }
+            }
+            heap[k] = v;
         }
     }
 
+    int left_child(int pos) {
+        return (2 * pos);
+    }
+    int right_child(int pos) {
+        return (2 * pos + 1);
+    }
+
+    int parent(int pos) {
+        return pos / 2;
+    }
+
+    int is_leaf(int pos) {
+        return pos > (n / 2) && pos < n;
+    }
+
    public:
-    Heap(K* h, int maxs, int curr_size) {
-        heap = h;
+    Heap(vector<K>& h, int maxs, int curr_size) : heap(h) {
         max_size = maxs;
         n = curr_size;
         build_heap();
     }
 
-    int left_child(int pos) {
-        return (2 * pos + 1);
-    }
-    int right_child(int pos) {
-        return (2 * pos + 2);
-    }
-
-    int parent(int pos) {
-        return (pos - 1) / 2;
-    }
-
-    int is_leaf(int pos) {
-        return pos >= (n / 2) && pos < n;
-    }
-
-    void insert(K& item) {
+    void push(K item) {
         int curr = n++;
         heap[curr] = item;
         while ((curr != 1) && heap[curr] >= heap[parent(curr)]) {  // bubble up  if child is greather than parent.
-            swap(heap, curr, parent(curr));
+            swap(heap[curr], heap[parent(curr)]);
             curr = parent(curr);
         }
     }
+
+    K pop() {  // remove root node
+        if (n == 0) {
+            return K();
+        }
+        swap(heap[1], heap[n--]);
+        K temp = heap[n + 1];
+        sift_down(1);
+        return temp;
+    };
 };
 
 int main() {
-    vector<int> items = {0, 2, 9, 7, 6, 5, 8, 10};
+    vector<int> arr = {9, 7, 6, 8, 4, 5, 3, 2, 1, 6, 45, 9};
+    auto h = new Heap<int>(arr, arr.size(), 6);
 
-    return 0;
+    h->push(12);
+    h->pop();
 }
