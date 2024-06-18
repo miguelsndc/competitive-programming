@@ -19,7 +19,7 @@ void dfs(int u, vector<vi> &graph, vb &visited) {
     if (visited[u]) return;
     visited[u] = true;
     for (int v = 0; v < graph.size(); v++) {
-        if (graph[u][v] != 0)
+        if (!visited[v])
             dfs(v, graph, visited);
     }
     // backtrack here if needed

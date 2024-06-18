@@ -1,46 +1,43 @@
 #include <bits/stdc++.h>
 
 #include <iostream>
+#include <vector>
+
+#define ll long long
+#define pii pair<int, int>
+#define pll pair<long long, long long>
+#define vi vector<int>
+#define vb vector<bool>
+#define vll vector<long long>
+#define mii map<int, int>
+#define si set<int>
+#define sc set<char>
+#define f first
+#define s second
+#define sp << " " <<
+#define spe << " "
 
 using namespace std;
 
-/*
-Heap ADT
-- push()
-    Inserts the new key after the last leaf of the heap
-    Heapify the key until dominance is satisfied
-- pop()
-    Exchange root with the last key of the heap, decrease size
-    by 1, get rid of the old root then heapify the tree by shifting
-    the new root down until dominance is satisfied
-- top()
-    peek the root element
-- private:
-- heapify()
-    does the heapifying stuff
-*/
-
-// K - comparable, orderable;
-template <typename K>
 class Heap {
    private:
-    vector<K>& heap;
+    vector<int>& heap;
     int max_size;
     int n;
 
     void sift(int pos) {
         int k = pos;
-        K v = heap[k];
+        int v = heap[k];
         int is_heap = false;
         while (!is_heap && left_child(k) <= n) {
             int j = left_child(k);
             if (j < n) {
-                if (heap[j] < heap[j + 1]) {  // right child is greater
+                if (heap[j] > heap[j + 1]) {  // right child is greater
                     j = right_child(k);
                 }
             }
 
-            if (v >= heap[j]) {  // heap property ok
+            if (v <= heap[j]) {  // heap property ok
                 is_heap = true;
             } else {
                 heap[k] = heap[j];
@@ -72,31 +69,26 @@ class Heap {
     }
 
    public:
-    Heap(vector<K>& h, int maxs, int curr_size) : heap(h) {
-        max_size = maxs;
-        n = curr_size;
+    Heap(vector<int>& h, int size) : heap(h) {
+        n = max_size = size;
         build_heap();
     }
 
-    void push(K item) {
-        if (n == max_size - 1) {
-            heap.resize(2 * max_size);
-            max_size *= 2;
-        }
+    void push(int item) {
         int curr = ++n;
         heap[curr] = item;
-        while ((curr != 1) && heap[curr] >= heap[parent(curr)]) {  // bubble up  if child is greather than parent.
+        while ((curr != 1) && heap[curr] < heap[parent(curr)]) {  // bubble up if child is greater than parent.
             swap(heap[curr], heap[parent(curr)]);
             curr = parent(curr);
         }
     }
 
-    K pop() {  // remove root node
+    int pop() {  // remove root node
         if (n == 0) {
-            return K();
+            return 100001;
         }
         swap(heap[1], heap[n--]);
-        K temp = heap[n + 1];
+        int temp = heap[n + 1];
         sift(1);
         return temp;
     };
@@ -107,11 +99,23 @@ class Heap {
 };
 
 int main() {
-    vector<int> arr = {9, 7, 6, 8, 4, 5, 3, 2, 1, 6, 45, 9};
-    auto h = new Heap<int>(arr, arr.size(), arr.size() - 1);
-
-    int n = h->size();
-    for (int i = 0; i < n - 1; i++) {
-        h->pop();
+    int tc;
+    while (cin >> tc && tc != 0) {
+        vector<int> t(tc + 1);
+        for (int i = 1; i <= tc; i++) {
+            cin >> t[i];
+        }
+        auto h = new Heap(t, tc);
+        int total = 0;
+        int cost = 0;
+        while (h->size() > 1) {
+            int i = h->pop();
+            int j = h->pop();
+            cost = i + j;
+            total += cost;
+            h->push(cost);
+        }
+        cout << total << '\n';
     }
+    return 0;
 }
