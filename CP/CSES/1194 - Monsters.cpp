@@ -51,11 +51,10 @@ int main() {
     cin >> n >> m;
     vs graph(n);
     vs m_cp(n);
-    vs p_cp(n);
     for (int i = 0; i < n; i++) {
         string s;
         cin >> s;
-        graph[i] = m_cp[i] = p_cp[i] = s;
+        graph[i] = m_cp[i] = s;
     }
 
     vector<vi> m_dist(n, vi(m, -1));
