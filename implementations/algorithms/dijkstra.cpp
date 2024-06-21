@@ -39,7 +39,7 @@ dijkstra(vector<vector<pii>> &g, int start) {
             if (new_dist < dist[edge.f]) {
                 prev[edge.f] = index;
                 dist[edge.f] = new_dist;
-                pq.push(make_pair(edge.s, edge.f));
+                pq.push({dist[edge.f], edge.f});
             }
         }
     }
