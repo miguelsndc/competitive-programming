@@ -1,7 +1,7 @@
 import os
 import shutil
 
-bad_extensions = ['.prob', '.bin', '.exe', '.c.swp']
+bad_extensions = ['.prob', '.bin', '.exe', '.c.swp', '.in', '.out']
 bad_dirs = ['.cph', 'build', 'Debug', "output"]
 exclude = ['.vscode', '.git']
 

@@ -23,39 +23,50 @@ void setIO(string name) {
     }
 }
 
+int dfs(int i, int at, vector<vi> &adj, vb &visited, vi &ordering) {
+    visited[at] = true;
+    for (auto u : adj[at]) {
+        if (!visited[u]) {
+            i = dfs(i, u, adj, visited, ordering);
+        }
+    }
+    ordering[i] = at;
+    return i - 1;
+}
+
 int main() {
-    setIO("1680");
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    // #ifndef ONLINE_JUDGE
+    //     setIO("1680");
+    // #endif
 
     int n, m, a, b;
     cin >> n >> m;
-    vector<vi> g(n);
+    vector<vi> adj(n);
     for (int i = 0; i < m; i++) {
         cin >> a >> b;
-        g[--a].push_back(--b);
+        adj[--a].push_back(--b);
     }
 
+    vi ordering(n, -1);
+    vb visited(n);
+    dfs(n - 1, 0, adj, visited, ordering);
+
+    vi dist(n, INT_MIN);
     vi prev(n, -1);
-    vb visited(n, false);
-    queue<int> q;
-    q.push(0);
+    dist[0] = 0;
     prev[0] = -2;
-    while (!q.empty()) {
-        int node = q.front();
-        cout << node + 1 << '\n';
-        visited[node] = true;
-        q.pop();
-        for (auto edge : g[node]) {
-            if (!visited[edge]) {
-                prev[edge] = node;
-                q.push(edge);
+    for (auto node : ordering) {
+        if (node == -1) continue;
+        for (auto e : adj[node]) {
+            if (dist[node] + 1 > dist[e]) {
+                dist[e] = dist[node] + 1;
+                prev[e] = node;
             }
         }
     }
 
-    if (!visited[n - 1]) {
-        cout << "IMPOSSIBLE" << '\n';
+    if (ordering[n - 1] == -1 || dist[n - 1] == INT_MIN) {
+        cout << "IMPOSSIBLE";
         return 0;
     }
 
@@ -66,6 +77,7 @@ int main() {
 
     reverse(path.begin(), path.end());
 
+    cout << path.size() << '\n';
     for (auto c : path) {
         cout << c + 1 spe;
     }
