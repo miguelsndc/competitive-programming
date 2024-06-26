@@ -1,21 +1,31 @@
-#include <iostream>
-typedef long long ll;
+#include <bits/stdc++.h>
+
 using namespace std;
-ll n;
-bool F(ll k) {
-    ll s = 0;
-    for (int x = 1; x <= n; x++) s += min(n, k / x);
-    return s < n * n / 2 + 1;
+#define ll long long
+#define pii pair<int, int>
+#define pll pair<long long, long long>
+#define vi vector<int>
+#define vb vector<bool>
+#define vs vector<string>
+#define vll vector<long long>
+#define mii map<int, int>
+#define si set<int>
+#define sc set<char>
+#define f first
+#define s second
+#define sp << " " <<
+#define spe << " "
+
+// clearly our search space is 1 to n*n
+
+void solve(int n) {
 }
+
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int n;
     cin >> n;
-    ll l = 1, r = n * n;
-    while (r - l > 1) {
-        ll mid = (l + r) / 2;
-        if (F(mid))
-            l = mid;
-        else
-            r = mid;
-    }
-    cout << r << "\n";
+    solve(n);
+    return 0;
 }
