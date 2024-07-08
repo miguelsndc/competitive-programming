@@ -20,6 +20,7 @@ void solve() {
     int n;
     cin >> n;
     map<string, vector<string>> g;
+    map<string, int> distances;
     for (int i = 0; i < n; i++) {
         string a, b, c;
         cin >> a >> b >> c;
@@ -29,24 +30,45 @@ void solve() {
         g[b].push_back(c);
         g[c].push_back(b);
         g[c].push_back(a);
+        distances[a] = distances[b] = distances[c] = INT_MAX;
     }
 
-    map<string, int> distances;
-    map<string, int> visited;
-    vector<pair<string, int>> depths;
+    map<string, bool> visited;
     queue<string> q;
     q.push("Ahmad");
     distances["Ahmad"] = 0;
     while (!q.empty()) {
         string top = q.front();
         q.pop();
+        if (visited[top]) continue;
         visited[top] = true;
         for (auto adj : g[top]) {
             if (!visited[adj]) {
+                distances[adj] = min(distances[adj], distances[top] + 1);
                 q.push(adj);
-                distances[adj] = distances[top] + 1;
             }
         }
+    }
+    vector<pair<string, int>> dist_pair;
+    for (auto it : distances) {
+        dist_pair.push_back({it.first, it.second});
+    }
+
+    sort(dist_pair.begin(), dist_pair.end(), [](const auto &a, const auto &b) {
+        if (a.second == b.second) return a.first < b.first;
+        return a.second < b.second;
+    });
+
+    cout << dist_pair.size() << '\n';
+
+    for (auto it : dist_pair) {
+        cout << it.first << ' ';
+        if (it.second == INT_MAX) {
+            cout << "undefined";
+        } else {
+            cout << it.second;
+        }
+        cout << "\n";
     }
 }
 
@@ -58,7 +80,7 @@ void setIO(string name) {
 }
 
 int main() {
-    setIO("vjg");
+    // setIO("vjg");
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int tc;
