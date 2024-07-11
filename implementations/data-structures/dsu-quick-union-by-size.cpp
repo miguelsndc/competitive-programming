@@ -17,16 +17,15 @@ using namespace std;
 #define spe << " "
 
 struct DisjointSet {
-    int *parent;
-    int *size;
+    vi parent;
+    vi size;
     DisjointSet(int n) {
-        parent = new int[n];
-        size = new int[n];
-        memset(parent, -1, n);
-        memset(size, 1, n);
+        parent.resize(n, -1);
+        size.resize(n, 1);
     }
 
-    int find(int curr) {
+    int
+    find(int curr) {
         if (parent[curr] == -1) {
             return curr;
         }
