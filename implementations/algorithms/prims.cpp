@@ -17,11 +17,11 @@ using namespace std;
 #define spe << " "
 #define edge tuple<int, int, int>
 
-int mst_max_edge(int n, vector<vector<pii>> &g, int src = 0) {
+pair<vector<edge>, int> prim(int n, vector<vector<pii>> &g, int src = 0) {
     int m = n - 1;
-    int edge_count = 0;
+    int edge_count, mst_cost = 0;
     vb visited(n);
-    int max_e = 0;
+    vector<edge> mst(m);
 
     priority_queue<edge, vector<edge>, greater<edge>> pq;
 
@@ -41,9 +41,8 @@ int mst_max_edge(int n, vector<vector<pii>> &g, int src = 0) {
             continue;
         }
 
-        int wt = get<0>(e);
-        max_e = max(max_e, wt);
-        edge_count++;
+        mst[edge_count++] = e;
+        mst_cost += get<0>(e);
 
         visited[to] = true;
         for (auto adj : g[to]) {
@@ -53,35 +52,25 @@ int mst_max_edge(int n, vector<vector<pii>> &g, int src = 0) {
         }
     }
 
-    if (edge_count != m) {
-        return INT32_MAX;
-    }
-    return max_e;
+    return {mst, mst_cost};
 }
-
 int main() {
-    typedef tuple<int, int, int> triple;
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, m, a, b, x;
-    while (cin >> n >> m, n) {
-        vector<vector<pii>> g(n);
-        vector<vector<pii>> mst(n);
-
-        for (int i = 0; i < m; i++) {
-            cin >> a >> b >> x;
-            g[a].push_back({b, x});
-            g[b].push_back({a, x});
-        }
-
-        int max_e = mst_max_edge(n, g, 0);
-
-        if (max_e == INT32_MAX) {
-            cout << "IMPOSSIBLE\n";
-        } else {
-            cout << max_e << '\n';
-        }
+    int n, m, a, b, w;
+    cin >> n >> m;
+    vector<vector<pii>> g(n);
+    for (int i = 0; i < m; i++) {
+        cin >> a >> b >> w;
+        g[a].push_back({b, w});
+        g[b].push_back({a, w});
     }
+
+    vector<edge> mst;
+    int mst_cost;
+    tie(mst, mst_cost) = prim(n, g, 0);
+
+    cout << mst_cost;
 
     return 0;
 }
