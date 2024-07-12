@@ -29,6 +29,11 @@ int main() {
     cin.tie(0);
     int n, m, a, b, x;
     while (cin >> n >> m, n) {
+        if (m == 0) {
+            cout << "IMPOSSIBLE\n";
+            continue;
+        }
+
         vector<vector<pii>> g(n);
         vector<vector<pii>> mst(n);
 
@@ -38,11 +43,7 @@ int main() {
             g[b].push_back({a, x});
         }
 
-        vb visited(n);
-        vi cost(n, INT32_MAX);
-
-        priority_queue<triple, vector<triple>, greater<triple>> pq;
-        int src = -1;
+        int src = 0;
         for (int i = 0; i < n; i++) {
             if (g[i].size() > 0) {
                 src = i;
@@ -50,20 +51,18 @@ int main() {
             }
         }
 
-        if (src == -1) {
-            cout << "IMPOSSIBLE\n";
-            continue;
-        }
+        vb visited(n);
+        vi cost(n, INT32_MAX);
+        priority_queue<pii, vector<pii>, greater<pii>> pq;
 
-        pii fe = g[src][0];
-        pq.push({fe.s, src, fe.f});
+        pq.push({0, src});
         cost[src] = 0;
 
-        int edge_cnt = 0;
         int max_e = 0;
+        int edge_cnt = 0;
         while (!pq.empty() && edge_cnt != (n - 1)) {
-            int wt, from, to;
-            tie(wt, from, to) = pq.top();
+            int wt, to;
+            tie(wt, to) = pq.top();
             pq.pop();
             edge_cnt++;
             visited[to] = true;
@@ -72,18 +71,16 @@ int main() {
                 if (cost[adj.f] > adj.s) {
                     cost[adj.f] = adj.s;
                     max_e = max(max_e, adj.s);
-                    pq.push({adj.s, from, adj.f});
+                    pq.push({adj.s, adj.f});
                 }
             }
         }
 
-        if (find(visited.begin(), visited.end(), false) == visited.end()) {
+        if (find(visited.begin(), visited.end(), false) != visited.end()) {
+            cout << max_e << '\n';
+        } else {
             cout << "IMPOSSIBLE" << '\n';
-            continue;
         }
-
-        cout << max_e << '\n';
     }
-
     return 0;
 }
