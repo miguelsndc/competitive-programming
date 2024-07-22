@@ -16,31 +16,23 @@ using namespace std;
 #define sp << " " <<
 #define spe << " "
 
+#define MOD 1000000007
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, x;
-    cin >> n >> x;
-    vi coins(n);
-    vll value(x);
-    for (int i = 0; i < n; i++) {
-        cin >> coins[i];
-    }
-
-    value[0] = 0;
-    for (int i = 1; i <= x; i++) {
-        value[i] = INT32_MAX;
+    int n;
+    cin >> n;
+    vi dp(n + 1);
+    vi coins = {1, 2, 3, 4, 5, 6};
+    dp[0] = 1;
+    for (int i = 1; i <= n; i++) {
         for (auto c : coins) {
-            if (i - c >= 0) {  // we can use this coin to construct this sum
-                value[i] = min(value[i], value[i - c] + 1);
+            if (i - c >= 0) {
+                dp[i] = (dp[i] + dp[i - c]) % MOD;
             }
         }
     }
-    if (value[x] == INT32_MAX) {
-        cout << -1;
-    } else {
-        cout << value[x];
-    }
-
+    cout << dp[n];
     return 0;
 }

@@ -15,27 +15,19 @@ using namespace std;
 #define s second
 #define sp << " " <<
 #define spe << " "
+#define vii vector<pii>
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int x;
-    cin >> x;
-    vll count(x + 1);
 
-    count[0] = 1;
-    int m = 1e9 + 7;
-    for (int a = 1; a <= x; a++) {
-        for (auto c : {1, 2, 3, 4, 5, 6}) {
-            if (a - c >= 0) {
-                count[a] += count[a - c];
-                count[a] %= m;
-            } else {
-                break;
-            }
-        }
+    int n, q, t;
+    cin >> n >> q;
+    vector<vi> g(n);
+    for (int i = 0; i < q; i++) {
+        cin >> t;
+        g[i].push_back(--t);
     }
-    cout << count[x];
 
     return 0;
 }
