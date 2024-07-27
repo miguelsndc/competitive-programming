@@ -20,14 +20,31 @@ using namespace std;
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int s, limit;
-    cin >> s >> limit;
-    vi limits;
-    int sum = 0;
+    int sum, limit;
+    cin >> sum >> limit;
+    vector<pii> limits;
     for (int i = 1; i <= limit; i++) {
         int lowbit = i & (-i);
-        sum += lowbit;
-        limits.push_back(i);
+        limits.push_back({lowbit, i});
+    }
+
+    sort(limits.rbegin(), limits.rend());
+
+    vi ans;
+    for (auto p : limits) {
+        if (sum - p.ff >= 0) {
+            ans.push_back(p.ss);
+            sum -= p.ff;
+        }
+    }
+
+    if (sum == 0) {
+        cout << ans.size() << '\n';
+        for (auto v : ans) {
+            cout << v spe;
+        }
+    } else {
+        cout << -1;
     }
 
     return 0;
