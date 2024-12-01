@@ -15,8 +15,10 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int n; cin >> n;
-    vi a(n), b(n - 1);
-    loop(i, 0, n) cin >> a[i];
-    loop(i, 0, n - 1) cin >> b[i];
-    
+    set<int> s;
+    loop(i, 0, n) {
+        int x; cin >> x;
+        s.insert(x);
+    }
+    cout << s.size();
 }

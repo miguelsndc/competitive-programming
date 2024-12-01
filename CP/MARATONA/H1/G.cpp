@@ -14,9 +14,14 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n; cin >> n;
-    vi a(n), b(n - 1);
-    loop(i, 0, n) cin >> a[i];
-    loop(i, 0, n - 1) cin >> b[i];
-    
+    ll n; cin >> n;
+    vector<ll> A(n); loop(i, 0, n) cin >> A[i];
+    ll local_max = 0;
+    ll global_max = INT_MIN;
+    loop(i, 0, n)
+    {
+        local_max = max(A[i], A[i] + local_max);
+        global_max = max(global_max, local_max);
+    }
+    cout << global_max;
 }
