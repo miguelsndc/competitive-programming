@@ -3,6 +3,7 @@
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> pi;
+
 ll n, k;
 int f(ll s, ll* A) {
     ll curr_seg_sum = 0;
