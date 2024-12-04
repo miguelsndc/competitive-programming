@@ -22,7 +22,7 @@ int main()
         return 0;
     }
 
-    vi a(n), b(n - 1);
+    vi a(n), b(n);
     loop(i, 0, n) cin >> a[i];
     loop(i, 0, n - 1) cin >> b[i];
     sort(a.rbegin(), a.rend());
