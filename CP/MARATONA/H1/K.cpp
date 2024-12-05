@@ -16,17 +16,18 @@ int main()
     cin.tie(0);
     int n; cin >> n;
     vi y(n);
-    loop(i, 0, n) cin >>y[i];
-    vi left(n);
+    loop(i, 0, n) cin >> y[i];
     stack<int> s;
-    for (int i = 0; i < n; i++) {
-        while(s.size() > 0 && y[i] < s.top()) {
+    int maxsq = 1;
+    y.push_back(0);
+    for (int i = 0; i < y.size(); ++i) {
+        while(s.size() && y[i] < y[s.top()]) {
+            int height = y[s.top()];
             s.pop();
+            int left = s.size() ? s.top() : -1;
+            maxsq = max(maxsq, min(i - left - 1, height));
         }
-        left[i] = (s.size() > 0) ? s.top() : -1;
-        s.push(y[i]);
+        s.push(i);
     }
-    for (int i = 0; i < n; i++) {
-        cout << left[i] << ' ';
-    }
+    cout << maxsq;
 }

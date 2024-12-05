@@ -14,6 +14,7 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, m, q; cin >> n >> m >> q;
-    vector<vi> cell(n, vi(m));
+    int tt; cin >> tt;
+    while(tt--) {
+        
 }
