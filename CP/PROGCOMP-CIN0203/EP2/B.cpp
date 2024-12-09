@@ -10,12 +10,12 @@ using namespace std;
 #define MOD 1000000007
 #define loop(x, s, n) for(int x = s; x < n; x++)
 
-int f(int k, vi& speed, vi& dist) {
-    int maxp = -1;
-    int minp = INT32_MAX;
+double f(double k, vi& speed, vi& dist) {
+    double maxp = 0;
+    double minp = 1e9  + 1;
 
     for (int i = 0; i < speed.size(); i++) {
-        int s = speed[i] * k + dist[i];
+        double s = speed[i] * k + dist[i];
         maxp = max(maxp, s);
         minp = min(minp, s);
     }
@@ -27,7 +27,6 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    cout << setprecision(6) << fixed;
     int n, k; cin >> n >> k;
     vi speed(n);
     vi dist(n); 
@@ -35,13 +34,14 @@ int main()
         cin >> speed[i] >> dist[i];
     }
 
-    int l = 0, r = k - 1;
-    while(r - l > 2) {
-        int m1 = l + ((r - l) / 3);
-        int m2 = r - ((r - l) / 3);
-        int k1 = f(m1, speed, dist);
-        int k2 = f(m2, speed, dist);
-        if (k1 <= k2) {
+    double l = 0, r = k;
+    double eps = 1e-12;
+    while(r - l > eps) {
+        double m1 = l + ((r - l) / 3);
+        double m2 = r - ((r - l) / 3);
+        double k1 = f(m1, speed, dist);
+        double k2 = f(m2, speed, dist);
+        if (k1 < k2) {
             r = m2;
         }
         else{
@@ -49,9 +49,6 @@ int main()
         }
     }
 
-    int m = INT32_MAX;
-    for(int i = l; i <= r; i++) {
-        m = min(m, f(i, speed, dist));
-    }
-    cout << (double)m;
+    cout << setprecision(6) << fixed;
+    cout << f((l + r) / 2.0, speed, dist);
 }
