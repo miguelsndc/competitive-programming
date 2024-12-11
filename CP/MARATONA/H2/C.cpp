@@ -20,30 +20,31 @@ int main()
 
     vi v(n); loop(i, 0, n) cin >> v[i];
 
-    map<int, pii> mp;
+    multimap<int, pii> mp;
 
     for(int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             int target = x - (v[i] + v[j]);
 
             if (mp.find(target) != mp.end()) {
-                auto [ni, nj] = mp[target];
+                for (auto [itr, range] = mp.equal_range(target); itr != range; ++itr) {
+                    auto [ni, nj] = (*itr).second;
 
-                set<int> s;
+                    set<int> s;
 
-                s.insert(i);
-                s.insert(j);
-                s.insert(ni);
-                s.insert(nj);
+                    s.insert(i);
+                    s.insert(j);
+                    s.insert(ni);
+                    s.insert(nj);
 
-                if (s.size() == 4) {
-                    cout << i + 1 << ' ' << j + 1 << ' ' << 
-                    ni + 1 << ' ' << nj + 1;
-                    return 0;
+                    if (s.size() == 4) {
+                        cout << i + 1 << ' ' << j + 1 << ' ' << 
+                        ni + 1 << ' ' << nj + 1;
+                        return 0;
+                    }
                 }
-            }
-
-            mp[(v[i] + v[j])] = {i, j};
+            } 
+            mp.insert({v[i] + v[j], {i, j}});
         }
     }
 
