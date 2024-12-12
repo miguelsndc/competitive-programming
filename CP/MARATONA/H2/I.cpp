@@ -14,7 +14,14 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, k;
-    while((cin >> n >> k) && n && k) {
+    int n; cin >> n;
+    vi prices(n);
+    loop(i, 0, n) cin >> prices[i];
+    sort(prices.begin(), prices.end());
+    int q; cin >> q;
+    loop(i, 0, q) {
+        int x; cin >> x;
+        int j = upper_bound(prices.begin(), prices.end(), x) - prices.begin();
+        cout << (j) << '\n';
     }
 }
