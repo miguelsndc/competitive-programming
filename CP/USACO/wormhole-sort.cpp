@@ -57,7 +57,6 @@ int main()
             if (component[i] != component[perm[i]]) {
                 can_sort = false;
                 break;
-            }
         }
 
         if (can_sort) {
