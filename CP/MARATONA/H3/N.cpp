@@ -4,6 +4,7 @@ using namespace std;
 
 #define ll long long
 #define MOD 1000000007
+#define INF 1000000009
 
 bool isvalid(int row, int col, vector<string> &grid) {
     return (
@@ -19,69 +20,59 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int n, m, d; cin >> n >> m >> d;
-    vector<string> grid(n, string(m, '.'));
-    array<int, 2> start;
-    array<int, 2> finish;
-    queue<array<int, 3>> monsters;
-    vector<vector<int>> dist(n, vector<int>(m, -1));
+    vector<string> grid(n);
+    array<int, 2> start, finish;
+    queue<array<int, 2>> monsters;
+    vector<vector<int>> monsters_dist(n, vector<int>(m, INF));
     for (int i = 0; i < n; i++) {
+        cin >> grid[i];
         for (int j = 0; j < m; j++) {
-            cin >> grid[i][j];
             if (grid[i][j] == 'S') start = {i, j};
             else if (grid[i][j] == 'F') finish = {i, j};
-            else if (grid[i][j] == 'M') {monsters.push({i, j, 0}); grid[i][j] = '#';};
+            else if (grid[i][j] == 'M') { 
+                monsters_dist[i][j] = 0;
+                monsters.push({i, j}); 
+            };
         }
     }
 
     while(!monsters.empty()) {
-        auto [row, col, accdist] = monsters.front();
+        auto [row, col] = monsters.front();
         monsters.pop();
-        if(dist[row][col] == -1) {
-            dist[row][col] = accdist;
-            if (dist[row][col] <= d) {
-                grid[row][col] = '#';
-            }
-        }
         for (int i = 0; i < 4; i++) {
             int dy = row + dirs[i][0];
             int dx = col + dirs[i][1];
-            if (isvalid(dy, dx, grid) && dist[dy][dx] == -1) {
-                monsters.push({dy, dx, accdist + 1});
+            if (isvalid(dy, dx, grid) && monsters_dist[dy][dx] == INF) {
+                monsters_dist[dy][dx] = monsters_dist[row][col] + 1;
+                monsters.push({dy, dx});
             }
         }
     }
 
-    if (dist[start[0]][start[1]] <= d) {
-        cout << -1;
-        return 0;
-    }
+    auto [finish_y, finish_x] = finish;
+    auto [start_y, start_x] = start;
 
-    if (dist[finish[0]][finish[1]] <= d) {
+    if (monsters_dist[start_y][start_x] <= d || monsters_dist[finish_y][finish_x] <= d) {
         cout << -1;
         return 0;
     }
 
     queue<array<int, 2>> player;
-    player.push(start);
-    grid[start[0]][start[1]] = '#';
-    auto [finish_y, finish_x] = finish;
-
-    int can = false;
     vector<vector<int>> player_dist(n, vector<int>(m, -1));
-    player_dist[start[0]][start[1]] = 0;
+    player_dist[start_y][start_x] = 0;
+    player.push(start);
+
     while(!player.empty()) {
         auto [row, col] = player.front();
         player.pop();
         if (row == finish_y && col == finish_x) {
-            can = true;
             break;
         }
         for (int i = 0; i < 4; i++) {
             int dy = row + dirs[i][0];
             int dx = col + dirs[i][1];
-            if (isvalid(dy, dx, grid) && grid[dy][dx] != '#' && player_dist[dy][dx] == -1 && dist[dy][dx] > d) {
+            if (isvalid(dy, dx, grid) && monsters_dist[dy][dx] > d && player_dist[dy][dx] == -1) {
                 player_dist[dy][dx] = player_dist[row][col] + 1;
-                grid[dy][dx] = '#';
                 player.push({dy,dx});
             }
         }
