@@ -3,28 +3,18 @@
 using namespace std;
 
 #define ll long long
-#define all(a) a.begin(), a.end()
-#define pll pair<ll, ll>
-#define pii pair<int, int>
-#define vi vector<int>
 #define MOD 1000000007
-#define loop(x, s, n) for(int x = s; x < n; x++)
+#define INF 1000000009
 
-bool f(int d, vi&v, int c) {
-    // d is the minimum distance we trying now // try to fit all cows
-
-    int n = v.size(), k = 0;
-    int p = 0;
-    for(int i = 1; i < n; i++) {
-        if (v[i] - v[p] >= d) {
-            k++;
-        } else {
-            p = i;
+bool f(int n, int c, vector<int>& stalls, int amount) {
+    int fitted = 1, prevloc = 1;
+    for (int i = 1; i < n; i++) {
+        if (stalls[i] - prevloc >= amount) {
+            fitted++; prevloc = stalls[i];
         }
     }
-
-    return k >= c;
-}      
+    return fitted >= c;
+}
 
 int main() 
 {
@@ -33,19 +23,23 @@ int main()
     int tt; cin >> tt;
     while(tt--) {
         int n, c; cin >> n >> c;
-        vi v(n); loop(i, 0, n) cin >> v[i];
-        sort(begin(v), end(v));
-        int l = 0, r = v[n - 1] - v[0];
-
-        while(r - l > 1) {
-            int m = l + (r - l) / 2;
-            if (f(m, v, c)) {
-                l = m;
-            } else {
-                r = m;
-            }
+        vector<int> stalls(n);
+        for (int i = 0; i < n; i++) {
+            cin >> stalls[i];
         }
 
-        cout << r;
+        sort(begin(stalls), end(stalls));
+
+        int l = 0, r = stalls[n - 1] - stalls[0];
+        while(r - l > 1) {
+            int mid = (l + r) / 2;
+            if (f(n, c, stalls, mid)) {
+                l = mid;
+            } else {
+                r = mid;
+            }
+        }
+        
+        cout << l << '\n';
     }
 }
