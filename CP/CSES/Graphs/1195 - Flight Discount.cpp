@@ -26,8 +26,6 @@ vll min_costs(int start, const vector<vector<pll>> &g) {
     while (!pq.empty()) {
         ll min_value = pq.top().f, index = pq.top().s;
         pq.pop();
-        visited[index] = true;
-        if (distance[index] < min_value) continue;
         for (auto edge : g[index]) {
             ll to = edge.f, cost = edge.s;
             if (visited[to]) continue;
