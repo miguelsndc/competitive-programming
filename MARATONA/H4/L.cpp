@@ -19,9 +19,8 @@ int n, m;
 const ll inf = LONG_LONG_MAX;
 vector<ii> adj[100005];
 
-void dijkstra() {
+ll dijkstra(int offset) {
     vector<vector<ll>> dist(100005, vector<ll>(3, inf));
-    vector<vector<bool>> visited(100005, vector<bool>(3));
     min_heap<array<ll, 3>> pq;
 
     // (cost, node, remainder 3)
@@ -32,14 +31,9 @@ void dijkstra() {
         auto [c, from, mod] = pq.top();
         pq.pop();
                                                             // acaba qnd chega em n - 1
-        if (visited[from][mod] || dist[from][mod] == inf || from == n - 1) continue;
-        visited[from][mod] = true;
-
+        if (c > dist[from][mod] || from == n - 1) continue;
         for (const auto &[to, cost]: adj[from]) {
             int new_mod = (mod + 1) % 3;
-
-            if (to == n - 1 && dist[to][new_mod] != inf) continue;
-
             if (dist[to][new_mod] > dist[from][mod] + cost) {
                 dist[to][new_mod] = dist[from][mod] + cost;
                 pq.push({dist[to][new_mod], to, new_mod});
@@ -47,12 +41,13 @@ void dijkstra() {
         }
     }
 
-    vector<pair<ll, string>> v = {{dist[n-1][0], "me"}, {dist[n-1][1], "Gon"}, {dist[n-1][2], "Killua"}};
-    sort(begin(v), end(v));
-    for (const auto &[d, s]: v) {
-        // cout << s << ' ' << d << '\n';
-        cout << s << '\n';
+    ll ans = inf;
+    for (int i = 0; i < 3; i++) {
+        if ((i - offset + 3) % 3 == 0) {
+            ans = min(ans, dist[n-1][i]);
+        }
     }
+    return ans;
 }
 
 void solve() {
@@ -63,7 +58,17 @@ void solve() {
         adj[v].push_back({u, w});
     }
     
-    dijkstra();
+    vector<pair<ll, string>> results = {
+        {dijkstra(0), "me"},
+        {dijkstra(1), "Gon"},
+        {dijkstra(2), "Killua"},
+    };
+
+    sort(begin(results), end(results));
+
+    for (const auto &[d, s]: results) {
+        cout << s << '\n';
+    }
 }
 
 int main() 
