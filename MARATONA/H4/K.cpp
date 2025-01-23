@@ -11,8 +11,8 @@ using namespace std;
 
 const int MAXN = 5e4 + 1;
 vector<int> g[MAXN];
-set<int> colors[MAXN];
 int ans[MAXN];
+vector<int> sizes(MAXN), parents(MAXN);
 
 void dfs(int u, int parent) {
     for (int v: g[u]) {
