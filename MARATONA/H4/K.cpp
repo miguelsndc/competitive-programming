@@ -9,30 +9,63 @@ using namespace std;
 #define MOD 1000000007
 #define ii pair<int, int>
 
-const int MAXN = 5e4 + 1;
+const int MAXN = 50001;
 vector<int> g[MAXN];
-int ans[MAXN];
-vector<int> sizes(MAXN), parents(MAXN);
+int heavy[MAXN], cnt[100000], color[100000], subtree_size[MAXN], ans[MAXN], freq[MAXN];
+set<int> colors;
+int n, m; 
 
-void dfs(int u, int parent) {
-    for (int v: g[u]) {
-        if (v != parent) {
-            dfs(v, u);
-
-            if (colors[u].size() < colors[v].size()) {
-                swap(colors[u], colors[v]);
-            }
-
-            for (int x: colors[v]) colors[u].insert(x);
+void find_subtree_sizes(int u, int parent = -1) {
+    subtree_size[u] = 1;
+    for (int child: g[u]) {
+        if (child != parent) {
+            find_subtree_sizes(child, u);
+            subtree_size[u] += subtree_size[child];
         }
     }
-
-    ans[u] = colors[u].size();
 }
 
-void solve(int n, int m) {
+// set colors per subtree then remove 
+void add_colors(int u, int parent, int x) {
+    cnt[color[u]] += x;
+    for (int child: g[u]){
+        if (child != parent && !heavy[child]) {
+            add_colors(child, u, x);
+        }
+    }
+}
+
+void dfs(int u, int parent, int bigchild) {
+    int max_size = -1, heavy_child = -1;
+    for (int child: g[u]) {
+        if (child != parent && subtree_size[child] > max_size) {
+            heavy_child = child, max_size = subtree_size[child];
+        } 
+    }
+    // process light child firts
+    for (int child: g[u]) {
+        if (child != parent && child != heavy_child) {
+            dfs(child, u, 0);
+        }
+    }
+    // then heavy
+    if (heavy_child != -1) {
+        dfs(heavy_child, u, 1), heavy[heavy_child] = 1;
+    }
+    add_colors(u, parent, 1);
+    
+    if (heavy[heavy_child] != -1) {
+        heavy[heavy_child] = 0;
+    }
+    if (bigchild == 0) {
+        add_colors(u, parent, -1);
+    }
+}
+
+void solve() {
     for (int i = 1; i <= n; i++) {
-        colors[i].clear(); g[i].clear();
+        g[i].clear();
+        heavy[i] = cnt[i] = 0;
     }
 
     for (int i = 1; i < n; i++) {
@@ -43,13 +76,15 @@ void solve(int n, int m) {
 
     for (int i = 1; i <= m; i++) {
         int u, c; cin >> u >> c;
-        colors[u].insert(c);
+        color[u] = c;
+        colors.insert(c);
     }
 
-    dfs(1, 0);
+    find_subtree_sizes(1);
+    dfs(1, 0, 0);
 
     for (int i = 1; i <= n; i++) {
-        cout << ans[i] << " \n"[i == n];
+        cout << ans[i] << ' ';
     }
 }
 
@@ -57,8 +92,7 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, m;
-    while(cin >> n >> m) {
-         solve(n, m);
+    while((cin >> n >> m)) {
+         solve();
     }
 }
