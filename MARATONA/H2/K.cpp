@@ -2,60 +2,66 @@
 
 using namespace std;
 
-#define ll long long
-#define all(a) a.begin(), a.end()
-#define pll pair<ll, ll>
-#define pii pair<int, int>
-#define vi vector<int>
+#define ll long long int
+#define ld long double
 #define MOD 1000000007
-#define loop(x, s, n) for(int x = s; x < n; x++)
+#define ii pair<int, int>
 
-
-void solve(int r, int c, ll *cnt, int depth, int k, vi&rdiag,vi&ldiag,vector<vi>&vis, int n) {
-
-    if (depth == k) {
-        cnt[0]++; return;
+ll n, k, ans = 0;
+void dfs(int row, int col, int cnt, bool*diag1, bool *diag2) {
+    if (cnt == k) {
+        ++ans;
+        return;
+    } else if (row == n) {
+        return;
+    } else if (col == n) {
+        return dfs(row + 1, 0, cnt, diag1, diag2);
     }
 
-    if (r == n) return;
-
-    for (int j = 0; j < n; j++) {
-        if (!vis[r][j] && rdiag[r - j + n] == 0 && ldiag[r + j] == 0) {
-            vis[r][j] = 1;
-            rdiag[r - j + n] = 1;
-            ldiag[r + j] = 1; 
-
-            solve(r + 1, j, cnt, depth + 1, k, rdiag, ldiag, vis, n);
-
-            vis[r][j] = 0;
-            rdiag[r - j + n] = 0;
-            ldiag[r + j] = 0; 
-        }
+    if (!diag1[row - col + n - 1] && !diag2[row + col]) {
+        diag1[row - col + n - 1] = true; 
+        diag2[row + col] = true;
+        dfs(row, col + 1, cnt + 1, diag1, diag2);
+        diag1[row - col + n - 1] = false; 
+        diag2[row + col] = false;
     }
+
+    dfs(row, col + 1, cnt, diag1, diag2);
 }
 
+vector<vector<int>> table = {
+{1, 1, 0},
+{1 ,4 ,4 ,0, 0 },
+{1, 9 ,26 ,26 ,8 ,0 ,0 },
+{1 ,16 ,92, 232 ,260 ,112, 16 ,0 ,0 },
+{1 ,25 ,240 ,1124 ,2728, 3368 ,1960 ,440 ,32 ,0 ,0 },
+{1 ,36, 520 ,3896 ,16428 ,39680 ,53744, 38368 ,12944 ,1600, 64 ,0 ,0 },
+{1 ,49 ,994 ,10894 ,70792 ,282248 ,692320 ,1022320, 867328 ,389312 ,81184 ,5792, 128 ,0 ,0 },
+{1 ,64, 1736 ,26192 ,242856 ,1444928 ,5599888, 14082528 ,22522960 ,22057472, 12448832, 3672448, 489536 ,20224 ,256 ,0 ,0 },
+};
 
 int main() 
 {
     ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    ll c = 0;
-    int n, k;
-    vi rdiag(2 * 8 - 1);
-    vi ldiag(2 * 8 - 1);
-    vector<vi> vis(8, vi(8));
-    while((cin >> n >> k) && n && k) {
-        if (k > 2 * n) {
-            cout << 0 << '\n';
-            continue;
-        }
+    // precomputation 
+    // for (int i = 1; i <= 8; i++) {
+    //     n = i;
+    //     for (int j = 0; j <= 2 * i; j++) {
+    //         k = j;
+    //         bool diag1[n], diag2[2 * n];
+    //         memset(diag1, 0, sizeof(diag1));
+    //         memset(diag2, 0, sizeof(diag2));
+    //         dfs(0, 0, 0, diag1, diag2);
+    //         cout << ans << ' ' << flush;
+    //         ans = 0;
+    //     }
+    //     cout << '\n';
+    // }
 
-        ll cnt = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                solve(0, 0, &cnt, 0, k, rdiag, ldiag, vis, n);
-            }
+    while((cin >> n >> k), n || k) {
+        if (k > 2 * n) {
+            k = 2 * n;
         }
-        cout << cnt << '\n';
+        cout << table[n - 1][k] << '\n';
     }
 }
