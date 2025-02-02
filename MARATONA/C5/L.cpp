@@ -7,19 +7,10 @@ using namespace std;
 #define MOD 1000000007
 #define ii pair<int, int>
 
-void setIO(string s) {
-    freopen((s + ".in").c_str(), "r", stdin);
-    freopen((s + ".out").c_str(), "w", stdout);
-}
-
 int f(int m, int n, vector<int> &v, int k) {
     int x = 0;
     for (int i = 0; i < n; i++) {
-        int mx = -1;
-        mx = max(m, v[i] - m);
-        while(mx > 5) {
-
-        }
+        x += (v[i] / m) + (v[i] % m > 0) - 1;
     }
 
     return x <= k;
@@ -32,22 +23,22 @@ int main()
     int n, k; cin >> n >> k;
     vector<int> v(n);
     int mx = -1;
-    int mn = INT32_MAX;
     for (int i = 0; i < n; i++) {
         cin >> v[i];
         mx = max(v[i], mx);
-        mn = min(v[i], mn);
     }
 
-    int l = 1, r = mx;
-    while(r - l > 1) {
+    int l = 1, r = mx + 1;
+    int ans = 0;
+    while(l <= r) {
         int m = l + (r - l) / 2;
         if (f(m, n, v, k)) {
-            r = m;
+            r = m - 1;
+            ans = m;
         } else {
-            r = m;
+            l = m + 1;
         }
     }
 
-    cout << l << ' ' << r;
+    cout << ans;
 }

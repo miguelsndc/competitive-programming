@@ -6,49 +6,51 @@ using namespace std;
 #define ld long double
 #define MOD 1000000007
 #define ii pair<int, int>
+#define vi vector<int>
+#define vii vector<ii>
 
 void setIO(string s) {
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
 }
 
-void solve(int n, int m) {
-    vector<int> g[n];
-    vector<int> in(n);
-    for (int i = 0; i < m; i++) {
+void solve() {
+    int n; cin >> n;
+    vii v(n / 2);
+    for (int i = 0; i < n / 2; i++) {
         int a, b; cin >> a >> b;
-        --a, --b;
-        g[a].push_back(b);
-        in[b]++;
+        if (a > b) swap(a, b);
+        v[i] = {a, b};
     }
-    
-    queue<int> q;
-    for (int i = 0; i < n; i++) {
-        if (in[i] == 0) {
-            q.push(i);
+    sort(begin(v), end(v));
+    vi seen(n / 2), aux;
+    int mx = -1;
+    for (int i = 0 ; i < n / 2; i++) {
+        if (v[i].first >= mx) {
+            mx = v[i].first;
+            aux.push_back(v[i].first);
+            aux.push_back(v[i].second);
+            mx = v[i].second;
+            seen[i] = true;
         }
     }
-    
-    int idx = 0;
-    vector<int> order(n);
-    while(!q.empty()) {
-        int node = q.front();
-        q.pop();
-        order[idx++] = node;
-        for (int v: g[node]) {
-            in[v]--;
-            if (in[v] == 0) {
-                q.push(v);
-            }
+    int mn = 1e9 + 1;
+    for (int i = n/2 - 1 ; i >= 0; i--) {
+        if (!seen[i] && v[i].second <= mn) {
+            mn = v[i].first;
+            aux.push_back(v[i].second);
+            aux.push_back(v[i].first);
+            mn = v[i].first;
+            seen[i] = true;
         }
     }
 
-    if (idx == n) {
-        for (int c: order) {
-            cout << c + 1 << '\n';
-        }
+    if (find(begin(seen), end(seen), false) != end(seen)) {
+        cout << -1;
     } else {
-        cout << "IMPOSSIBLE\n";
+        for (int c: aux) {
+            cout << c << ' ';
+        }
     }
 }
 
@@ -56,8 +58,8 @@ int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int n, m;
-    while((cin >> n >> m) && n && m) {
-        solve(n, m);
+    int tt = 1; // cin >> tt;
+    while(tt--) {
+         solve();
     }
 }
