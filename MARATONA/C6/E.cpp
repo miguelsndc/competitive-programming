@@ -7,129 +7,138 @@ using namespace std;
 #define MOD 1000000007
 #define ii pair<int, int>
 #define vi vector<int>
+#define vll vector<ll>
+#define vb vector<bool>
+#define vs vector<string>
 #define vii vector<ii>
+#define vd vector<double>
+#define si set<int>
+#define mii map<int, int>
+#define fi first
+#define se second
+#define sz(x) int(x.size())
+#define all(a) (a).begin(), (a).end()
+#define pb emplace_back
+#define INF 1000000009
+bool prime(ll a) { if (a==1) return 0; for (int i=2;i<=round(sqrt(a));++i) if (a%i==0) return 0; return 1; }
 
 void solve() {
-    int n, m; cin >> n >> m;
-    int d; cin >> d;
+    int n, m, d; cin >> n >> m >> d;
+    vs grid(n);
+    for (int i = 0; i < n; i++) cin >> grid[i];
 
-    vector<string> grid(n);
-    for (int i = 0; i < n; i++) {
-        cin >> grid[i];
-    }
-
-    ii start, end;
-
+    vector<pair<ii, int>> cops;
     enum pos {
-        up,
-        down,
-        left,
-        right
+        up, down, left, right
     };
-
-    vector<array<int, 3>> cops;
-
+    ii start, end;
+    map<ii, int> mp;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             char v = grid[i][j];
 
-            if (v == 'F') {
-                start = {i, j};
-            } else if (v == 'H') {
-                end = {i, j};
-            }
-            if(v == '>') {
-                cops.push_back({i, j, pos::right});
-            }
-            if(v == '<') {
-                cops.push_back({i, j, pos::left});
-            }
-            if(v == 'v') {
-                cops.push_back({i, j, pos::down});
-            }
-            if(v == '^') {
-                cops.push_back({i, j, pos::up});
-            }
-        }
-    }
-
-
-    for (auto c: cops) {
-        auto [i, j, p] = c; 
-
-        if (p == pos::up) {
-            int cnt = 0;
-            while(i - cnt >= 0 && cnt <= d) {
-                if ((grid[i - cnt][j] == '.' || grid[i - cnt][j] == 'F' || grid[i - cnt][j] == 'H' || i - cnt == i || grid[i - cnt][j] == '$')) {
-                    grid[i - cnt][j] = '$';
-                    cnt++;
-                } else {
-                    break;  
+            if (v == 'F') start = {i ,j};
+            else if (v == 'H') end = {i, j};
+            else if (v == '>') {
+                cops.push_back({{i, j}, right});
+                mp[{i ,j}] = true;
                 }
+            else if (v == '<') {
+                cops.push_back({{i, j}, left});
+                mp[{i ,j}] = true;
+                }
+            else if (v == '^') {
+                cops.push_back({{i, j}, up});
+                mp[{i ,j}] = true;
+                }
+            else if (v == 'v') {
+                cops.push_back({{i, j}, down});
+                mp[{i ,j}] = true;
+                }
+        }
+    }
+
+    auto iscop = [&grid, &mp](int i, int j) {
+        return (grid[i][j] == '>' || grid[i][j] == '<' || grid[i][j] == '>' || grid[i][j] == 'v' || mp[{i, j}]);
+    };
+
+    for (const auto& [pos, dir]: cops) {
+        auto [r, c] = pos;
+        if (dir == down) {
+            for (int cnt = 0; cnt <= d; cnt++) {
+                if (r + cnt >= n || grid[r + cnt][c] == '#' || (iscop(r + cnt, c) && r + cnt != r)) {
+                    break;
+                }
+                grid[r + cnt][c] = '$';
             }
         }
-        if (p == pos::left) {
-            int cnt = 0;
-            while(j - cnt >= 0 && cnt <= d) {
-                if ((grid[i][j - cnt] == '.' || grid[i][j - cnt] == 'F' || grid[i][j - cnt] == 'H' || j - cnt == j || grid[i][j - cnt] == '$')) {
-                    grid[i][j - cnt] = '$';
-                    cnt++;
-                } else {break;}
+        if (dir == left) {
+            for (int cnt = 0; cnt <= d; cnt++) {
+                if (c - cnt < 0 || grid[r][c - cnt] == '#' || (iscop(r, c - cnt) && c - cnt != c)) {
+                    break;
+                }
+                grid[r][c - cnt] = '$';
             }
         }
-        if (p == pos::right) {
-            int cnt = 0;
-            while(j + cnt < m && cnt <= d) {
-                if ((grid[i][j + cnt] == '.' || grid[i][j + cnt] == 'F' || grid[i][j + cnt] == 'H' || j + cnt == j || grid[i][j + cnt] == '$')) {
-                    grid[i][j + cnt] = '$';
-                    cnt++;
-                } else {break;}
+        if (dir == right) {
+            for (int cnt = 0; cnt <= d; cnt++) {
+                if (c + cnt >= m || grid[r][c + cnt] == '#' || (iscop(r, c + cnt) && c + cnt != c)) {
+                    break;
+                }
+                grid[r][c + cnt] = '$';
             }
         }
-        if (p == pos::down) {
-            int cnt = 0;
-            while(i + cnt < n && cnt <= d) {
-                if ((grid[i + cnt][j] == '.' || grid[i + cnt][j] == 'F' || grid[i + cnt][j] == 'H' || i  + cnt == i || grid[i + cnt][j] == '$')) {
-                    grid[i + cnt][j] = '$';
-                    cnt++;
-                } else {break;}
+        if (dir == up) {
+            for (int cnt = 0; cnt <= d; cnt++) {
+                if (r - cnt < 0 || grid[r - cnt][c] == '#' || (iscop(r - cnt, c) && r - cnt != r)) {
+                    break;
+                }
+                grid[r - cnt][c] = '$';
             }
         }
     }
 
-    queue<ii> q;
-    q.push(start);
+    auto is_valid = [&grid, &n, &m](int r, int c) {
+        return (r >= 0 && r < n && c >= 0 && c < m && grid[r][c] != '$' && grid[r][c] != '#');
+    };
+
+    if (grid[start.fi][start.se] == '$' || grid[end.fi][end.se] == '$') {
+        cout << "NO\n";
+        return;
+    }
+
     int dy[] = {0, 0, 1, -1};
     int dx[] = {1, -1, 0, 0};
-    grid[start.first][start.second] = '$';
-
+    queue<ii> q;
+    q.push({start.fi, start.se});
+    grid[start.fi][start.se] = '$';
     bool can = false;
-    while (!q.empty()) {
+    while(!q.empty()) {
+        if (can) break;
         auto [row, col] = q.front();
         q.pop();
         for (int i = 0; i < 4; i++) {
             int nr = row + dy[i];
             int nc = col + dx[i];
-            if (nr >= 0 && nr < n && nc >= 0 && nc < m && grid[nr][nc] != '$' && grid[nr][nc] != '#') {
+            if (is_valid(nr, nc)) {
+                q.push({nr, nc});
                 if (grid[nr][nc] == 'H') {
                     can = true;
                 }
-                q.push({nr, nc});
-                grid[nr][nc] = '$';
+                grid[nr][nc] = '#';
             }
         }
     }
-
-    cout << (can ? "YES" : "NO");
+    cout << (can ? "YES\n" : "NO\n");
 }
-
 
 int main() 
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int tt = 1; // cin >> tt;
-    while(tt--) {
+    for (int t = 1; t <= tt; t++) {
          solve();
     }
 }
+
