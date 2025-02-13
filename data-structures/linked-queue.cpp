@@ -35,12 +35,12 @@ public:
         rear = front;
         size = 0;
     }
-    void enqueue(E item) {
+    void push(E item) {
         rear->next = new Link<E>(item, NULL);
         rear = rear->next;
         size++;
     }
-    E dequeue() {
+    E pop() {
         E item = front->next->element;
         Link<E> *temp = front->next;
         front->next = temp->next;
@@ -51,10 +51,10 @@ public:
         return item;
     }
 
-    E frontValue() {
+    E front() {
         if (size > 0) {
             return front->next->element;
         }
     }
-    int length() const { return size; }
+    int size() const { return size; }
 };
