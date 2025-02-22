@@ -1,0 +1,53 @@
+Count: 32
+
+Homework 1:
+  - Persistent Bookcase 
+  
+Contest 3:
+  - Power of Points 
+  - Penchick and BBQ Buns 
+  - Wooden Toy Festival 
+  - Strange Mirroring 
+  
+Contest 4:
+  - Christmas Tree 
+  
+ Homework 4:
+  - War 
+  - Maximize the Largest Component (Easy) 
+  - The Chicken and the Egg 
+  - Go Iguanas! 
+  - Call During the Journey 
+  - Harry and the Christmas Tree 
+  
+ Homework 5:
+  - Removal Game 
+  - Sushi 
+  
+ Contest 6:
+  - Sumy 
+  
+ Homework 6:
+  - Counting Towers 
+  - In Puzzleland 
+  - Mega Man's Mission 
+  - Travelling SalesPerson 
+  - Counting Numbers 
+  - Maximum Product 
+  - Investigation 
+  - Magic Numbers 
+  
+ Contest 7:
+  - Little Birthday Party
+  - Connect the Dots 
+  - Keep Distance
+  - Treasures
+  
+ Homework 7:
+  - Count Paths
+  - Imbalanced Teams
+  - Nearly Shortest Repeating Substring
+  - X-Magic Pair
+  - Petya and Divisors
+  
+  
