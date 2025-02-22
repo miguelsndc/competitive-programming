@@ -12,7 +12,7 @@ Contest 3:
 Contest 4:
   - Christmas Tree 
   
- Homework 4:
+Homework 4:
   - War 
   - Maximize the Largest Component (Easy) 
   - The Chicken and the Egg 
@@ -49,5 +49,9 @@ Contest 4:
   - Nearly Shortest Repeating Substring
   - X-Magic Pair
   - Petya and Divisors
+  
+Contest 8:
+  - F String Bags
+  - J Prime Precipitation
   
   
