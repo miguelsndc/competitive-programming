@@ -89,9 +89,9 @@ private:
                 update(2 * node + 1, mid + 1, end, idx, val);
             }
             tree[node] = min(tree[2 * node], tree[2 * node + 1]);
-        }
     }
 
+        }
     int query(int node, int start, int end, int l, int r) {
         if (r < start || l > end) return INT_MAX; // Neutral element for min
         if (l <= start && end <= r) return tree[node];
