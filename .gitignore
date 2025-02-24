@@ -4,3 +4,7 @@
 *.prob
 *.c.swp
 *.bin
+.cph/*
+
+*.in
+*.out
