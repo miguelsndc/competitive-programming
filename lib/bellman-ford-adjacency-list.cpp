@@ -50,17 +50,3 @@ vi bellman_ford(vector<vector<edge>> &g, int start) {
 
     return distance;
 }
-
-const int N = 5;
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    vector<vector<edge>> adj(N);
-    add_edge(1, 2, 7, adj);
-    add_edge(1, 3, 3, adj);
-    add_edge(1, 4, 5, adj);
-    add_edge(2, 3, 8, adj);
-    add_edge(2, 5, 2, adj);
-    add_edge(3, 5, 6, adj);
-    return 0;
-}
