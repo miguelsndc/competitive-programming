@@ -2,6 +2,8 @@
 using namespace std;
 #define ll long long
 const int MAXN = 1e6 + 5;
+
+// caso tenha colisão use 1<<61 - 1 e 1<<31 -1 como mod e retorne um pair
  
 const ll MOD1 = 188'888'881;
 const ll MOD2 = 1e9 + 7;
