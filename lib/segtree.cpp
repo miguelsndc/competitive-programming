@@ -7,17 +7,18 @@ using namespace std;
 #define fi first
 #define se second
 
-int n;
 const int maxn = 2e5 + 5;
-vector<int> tree, a(maxn);
 
+int n;
+vector<int> a(maxn);
 struct SegmentTree {
+    vector<int> tree;
     SegmentTree() {
+        vector<int> tree;
         tree.resize(4 * (n + 1));
     }
 
     int join(int a, int b) {
-        return min(a, b); // do stuff here
     }
 
     void build(int l = 1, int r = n, int v = 1) {
