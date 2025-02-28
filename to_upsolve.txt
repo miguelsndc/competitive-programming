@@ -1,7 +1,4 @@
-Count: 32
-
-Homework 1:
-  - Persistent Bookcase 
+Count: 29
   
 Contest 3:
   - Power of Points 
@@ -13,11 +10,9 @@ Contest 4:
   - Christmas Tree 
   
 Homework 4:
-  - War 
   - Maximize the Largest Component (Easy) 
   - The Chicken and the Egg 
   - Go Iguanas! 
-  - Call During the Journey 
   - Harry and the Christmas Tree 
   
  Homework 5:
