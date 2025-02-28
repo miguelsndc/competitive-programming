@@ -23,13 +23,3 @@ int query(int pos) {
 	}
 	return sum;
 }
-
-int range_query(int l, int r) {
-	return query(r) - query(l - 1);
-}
-
-void build(const vector<ll> &v) {
-	for (int i = 0; i < v.size(); i++) {
-		add(i, v[i]);
-	}
-}
