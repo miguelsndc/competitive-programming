@@ -49,6 +49,6 @@ int main()
     cin.tie(0);
     int tt = 1; // cin >> tt;
     for (int t = 1; t <= tt; t++) {
-         solve();
+        solve();
     }
 }
