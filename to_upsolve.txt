@@ -1,11 +1,3 @@
-Count: 29
-  
-Contest 3:
-  - Power of Points 
-  - Penchick and BBQ Buns 
-  - Wooden Toy Festival 
-  - Strange Mirroring 
-  
 Contest 4:
   - Christmas Tree 
   
@@ -16,11 +8,7 @@ Homework 4:
   - Harry and the Christmas Tree 
   
  Homework 5:
-  - Removal Game 
   - Sushi 
-  
- Contest 6:
-  - Sumy 
   
  Homework 6:
   - Counting Towers 

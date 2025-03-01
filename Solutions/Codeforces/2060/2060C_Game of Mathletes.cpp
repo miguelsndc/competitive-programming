@@ -9,19 +9,30 @@ using namespace std;
 
 void solve() {
     int n, k; cin >> n >> k;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) cin >> v[i];
-    sort(begin(v), end(v));
-    set<pair<int, int>> possible;
+    set<int> ms;
+    vector<int> freq(n + 1);
     for (int i = 0; i < n; i++) {
-        int b = v[i];
-        int lb = lower_bound(begin(v), end(v), k - b) - begin(v);
-        if (lb < v.size()) {
-            if (lb < i) swap(i, lb);
-            possible.insert({i, lb});
+        int x; cin >> x;
+        ms.insert(x);
+        freq[x]++;
+    }
+    int cnt = 0;
+    while(!ms.empty()) {
+        auto q = ms.begin();
+        auto it = ms.lower_bound(k - *q);
+        if (it != end(ms) && (*it + *q) == k && (it != q || (it == q && freq[*q] >= 2))) {
+            cnt++;
+            freq[*it]--;
+            if (freq[*it] == 0) {
+                ms.erase(it);
+            }
+        } 
+        freq[*ms.begin()]--;
+        if (freq[*ms.begin()] == 0) {
+            ms.erase(ms.begin());
         }
-    } 
-    cout << possible.size() << '\n';
+    }
+    cout << cnt << '\n';
 }
 
 int main() 
