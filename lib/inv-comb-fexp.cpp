@@ -10,11 +10,9 @@ ll fexp(ll a, ll b){
     }
     return ans;
 }
-
 ll inv(ll a, ll p){ // inverso modular mod p primo
     return fexp(a, p - 2);
 }
-
 ll fact[1000000]; // computar fatoriais
 ll comb(ll n, ll k, ll p){
     return ((fact[n] * inv(fact[k], p) % p) * inv(fact[n-k], p)) % p;
