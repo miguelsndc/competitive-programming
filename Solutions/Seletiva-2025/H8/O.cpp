@@ -45,7 +45,7 @@ int main()
         rep(i, 0, n) ps[i + 1] %= m;
         ll total = 0;
         for (int k = 1; k <= n; k++) {
-            total += k *ps[k] -(ps[k - 1]);
+            ll val = (k) *(ps[k]) - query(ps[k] + 1) * m;
         }
         cout << total;
     }
