@@ -42,13 +42,10 @@ int main()
         vector<ll> v(n), ps(n + 1);
         rep(i, 0, n) cin >> v[i];
         rep(i, 0, n) ps[i + 1] = ps[i] + v[i];
+        rep(i, 0, n) ps[i + 1] %= m;
         ll total = 0;
         for (int k = 1; k <= n; k++) {
-            for (int l = 0; l < k; l++) {
-                total += ps[k]%m - ps[l]%m + m; // o que eu to fazendo com a bit
-                // total += (ps[k] - ps[l])% m; o que funciona
-                // total += (ps[k]%m - ps[l]%m + m)% m; o que funciona
-            }
+            total += k *ps[k] -(ps[k - 1]);
         }
         cout << total;
     }
