@@ -15,16 +15,12 @@ Homework 4:
   - In Puzzleland 
   - Mega Man's Mission 
   - Travelling SalesPerson 
-  - Counting Numbers 
-  - Maximum Product 
   - Investigation 
   - Magic Numbers 
   
  Contest 7:
   - Little Birthday Party
   - Connect the Dots 
-  - Keep Distance
-  - Treasures
   
  Homework 7:
   - Count Paths
