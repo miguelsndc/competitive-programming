@@ -38,14 +38,13 @@ int main()
     cin.tie(0);
     int tc = 1;
     while(tc--) {
-        int n,m;cin>>n>>m;
+        ll n,m;cin>>n>>m;
         vector<ll> v (n); rep(i,0,n) cin>>v[i];
         vector<ll> ps(n+1); rep(i,0,n) ps[i+1] = ps[i] + v[i]; 
         rep(i,0, n+1)ps[i] %= m;
         ll total = 0, ps2 = 0;
-        for (int r = 1; r <= n; r++) {
-                                    // ps[r] + 1 ... m sao os maiores q o ps[r] dai é so botar m
-            total += r * ps[r] - ps2 + (query(m) - query(ps[r] + 1)) * m ; 
+        for (ll r = 0; r <= n; r++) {
+            total += r * ps[r] - ps2 + (query(m + 1) - query(ps[r])) * m ; 
             ps2 += ps[r];
             add(ps[r], 1);
         }
