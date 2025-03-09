@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
@@ -19,25 +18,24 @@ using namespace __gnu_pbds;
 #define debug(x) cout << #x << " is: " << x << '\n'
 #define write(x) cout << x << ' '; 
 #define writeln(x) cout << x << '\n';
+#define se second
 
 const int maxn = 2e5 + 5;
+
+int n, mod = 360; 
+vi v(15);
+bool f(int i, int deg) {
+    if (i == n) return deg == 0;
+    bool left = f(i + 1, (mod + (deg - v[i]) % mod) % mod);
+    bool right = f(i + 1, (deg + v[i]) % mod);
+    return (left || right);
+}
 
 int main() 
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    int tc; cin >> tc;
-    while(tc--) {
-        ordered_set st;
-        int n; cin >> n;
-        vector<ii> v(n);
-        fori(n) cin >> v[i].second >> v[i].first; // sort by ends first
-        sort(v.begin(), v.end());
-        ll ans = 0;
-        for (const auto &[end, start]: v) {
-            ans += st.size() - st.order_of_key(start);
-            st.insert(start);
-        }
-        writeln(ans);
-    }
+    cin >> n;
+    fori(n)cin>>v[i];
+    cout << ((f(0, 0) ? "YES" : "NO"));
 }
