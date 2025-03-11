@@ -21,26 +21,27 @@ using namespace __gnu_pbds;
 #define se second
 
 const int maxn = 2e5 + 5;
-
 int main() 
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int tc; cin >> tc;
+
+    int dp[maxn];
+    memset(dp, 0, sizeof dp);
+    for (int i = 1; i <= maxn; i++) {
+        int k = i;
+        int sum = 0;    
+        while (k) {
+            sum += k % 10;
+            k /= 10;
+        }
+        dp[i] = dp[i - 1] + sum;
+    }
+    // 
+
     while(tc--) {
         int n; cin >> n;
-        vi v(2*n);
-        fori(2*n) {
-            cin >> v[i];
-        }
-        ll sum = 0;
-        vector<ll> a;
-        sort(begin(v), end(v));
-        swap(v[1], v[2*n - 1]);
-        fori(v.size()) {
-            write(v[i]);
-            sum += ((i%2==0) ? 1: -1) * v[i];
-        }
-        write(abs(sum) + v[0]);
+        writeln(dp[n]);
     }
 }
