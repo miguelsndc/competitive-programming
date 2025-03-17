@@ -45,7 +45,6 @@ Contest 9:
   - B Baby Name
  
  Homework 10
-  - A Point Location Test
   - B Hurricane Danger
   - C Satyam and Counting
   - D Convex Hull
