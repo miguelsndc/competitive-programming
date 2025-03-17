@@ -1,29 +1,21 @@
 (X) - Editorial Available
 
-Count: 26
-
 Homework 4:
-  - Maximize the Largest Component (Easy)  (X)
   - The Chicken and the Egg 
   - Go Iguanas! 
   - Harry and the Christmas Tree 
   
  Homework 6:
-  - Counting Towers 
   - In Puzzleland 
   - Mega Man's Mission 
-  - Travelling SalesPerson  (X)
   - Investigation 
-  - Magic Numbers  (X)
   
  Contest 7:
   - Little Birthday Party
   - Connect the Dots  (X)
   
  Homework 7:
-  - Count Paths
   - Imbalanced Teams
-  - Petya and Divisors (X)
 
 Homework 8: 
   - J Pashmak and Parmida's problem (X)
@@ -38,4 +30,23 @@ Contest 9:
   - E Advanced Tic Tac Toe 
   - H Olympic Goodies
   - J Double Deck
-
+ 
+ Homework 9 
+  - B Try to Complete
+  - C The Tree
+  - D Set Xor-Min
+  - E Maximum Xor Subarray (X)
+  - F Word Combinations (X)
+  - G Compressing Commands
+  - L Check Transcription (X)
+  - M Censoring (X)
+  
+ Contest 10
+  - B Baby Name
+ 
+ Homework 10
+  - A Point Location Test
+  - B Hurricane Danger
+  - C Satyam and Counting
+  - D Convex Hull
+  - E Saint John Festival
