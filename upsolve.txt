@@ -1,14 +1,13 @@
 (X) - Editorial Available
 
 Homework 4:
-  - The Chicken and the Egg 
   - Go Iguanas! 
   - Harry and the Christmas Tree 
   
  Homework 6:
   - In Puzzleland 
   - Mega Man's Mission 
-  - Investigation 
+  - Investigation (x)
   
  Contest 7:
   - Little Birthday Party
@@ -18,7 +17,6 @@ Homework 4:
   - Imbalanced Teams
 
 Homework 8: 
-  - J Pashmak and Parmida's problem (X)
   - L Sereja and Brackets (X)
   - M Ant colony (X)
   - N Expressions   
