@@ -29,7 +29,6 @@ void solve() {
             pref[i][j] = grid[i][j] + pref[i - 1][j] + pref[i][j - 1] - pref[i - 1][j - 1];
         }
     }
-
     // previous row, previous col, to row, to col
     int pr, pc, tr, tc;
     int ans = pref[tr][tc] - pref[tr][pc - 1] - pref[pr - 1][tc] + pref[pr - 1][pc - 1];
