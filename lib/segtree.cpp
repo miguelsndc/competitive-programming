@@ -10,7 +10,7 @@ using namespace std;
 const int maxn = 2e5 + 5;
 
 int n;
-vector<int> a(maxn);
+vector<int> a(maxn); // 1-based
 struct SegmentTree {
     vector<ll> tree;
     SegmentTree() {
