@@ -1,3 +1,9 @@
+AtCoder:
+  397
+    - F Variety Split Hard
+    - G Maximize Distance
+
+
 (X) - Editorial Available
 
 Homework 4:
