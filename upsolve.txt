@@ -23,16 +23,12 @@ Homework 4:
   - Imbalanced Teams
 
 Homework 8: 
-  - L Sereja and Brackets (X)
-  - M Ant colony (X)
   - N Expressions   
 
 Contest 9:
   - B Detour
   - C Pianissmo (X)
-  - D Xor in Tree
   - E Advanced Tic Tac Toe 
-  - H Olympic Goodies
   - J Double Deck
  
  Homework 9 
@@ -49,7 +45,4 @@ Contest 9:
   - B Baby Name
  
  Homework 10
-  - B Hurricane Danger
-  - C Satyam and Counting
-  - D Convex Hull
   - E Saint John Festival
